@@ -1,14 +1,21 @@
 using CasamentoAnaKaio.Domain.Entities;
+using CasamentoAnaKaio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CasamentoAnaKaio.Infrastructure.Persistence;
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
+    public static readonly Guid AdminRoleId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+    public static readonly Guid UserRoleId = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
+    public static readonly Guid GuestRoleId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
+
     public DbSet<GuestConfirmation> GuestConfirmations => Set<GuestConfirmation>();
     public DbSet<Gift> Gifts => Set<Gift>();
     public DbSet<GiftContribution> GiftContributions => Set<GiftContribution>();
     public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -87,6 +94,67 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
             entity.Property(x => x.Mode).HasConversion<string>().HasMaxLength(30);
             entity.Property(x => x.PaymentStatus).HasConversion<string>().HasMaxLength(30);
             entity.HasOne(x => x.Gift).WithMany(x => x.Contributions).HasForeignKey(x => x.GiftId);
+            entity.HasIndex(x => x.ProviderPaymentId);
+        });
+
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Amount).HasPrecision(10, 2);
+            entity.Property(x => x.MercadoPagoPaymentId).HasMaxLength(120).IsRequired();
+            entity.Property(x => x.Status).HasMaxLength(40).IsRequired();
+            entity.Property(x => x.PixQrCode).HasMaxLength(4000).IsRequired();
+            entity.Property(x => x.PixCopyPaste).HasMaxLength(4000).IsRequired();
+            entity.HasIndex(x => x.GiftContributionId);
+            entity.HasIndex(x => x.MercadoPagoPaymentId);
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Name).HasMaxLength(100).IsRequired();
+            entity.Property(x => x.Description).HasMaxLength(500);
+            entity.Property(x => x.RoleType).HasConversion<int>();
+            entity.HasMany(x => x.Users).WithMany(x => x.Roles).UsingEntity("UserRoles");
+
+            entity.HasData(
+                new
+                {
+                    Id = AdminRoleId,
+                    Name = "Admin",
+                    RoleType = RoleType.Admin,
+                    Description = "Acesso administrativo completo.",
+                    IsActive = true,
+                    CreatedAt = new DateTimeOffset(2026, 5, 19, 0, 0, 0, TimeSpan.Zero)
+                },
+                new
+                {
+                    Id = UserRoleId,
+                    Name = "User",
+                    RoleType = RoleType.User,
+                    Description = "Usuario autenticado.",
+                    IsActive = true,
+                    CreatedAt = new DateTimeOffset(2026, 5, 19, 0, 0, 0, TimeSpan.Zero)
+                },
+                new
+                {
+                    Id = GuestRoleId,
+                    Name = "Guest",
+                    RoleType = RoleType.Guest,
+                    Description = "Convidado com acesso publico.",
+                    IsActive = true,
+                    CreatedAt = new DateTimeOffset(2026, 5, 19, 0, 0, 0, TimeSpan.Zero)
+                });
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Email).HasMaxLength(256).IsRequired();
+            entity.Property(x => x.Name).HasMaxLength(160).IsRequired();
+            entity.Property(x => x.PasswordHash).IsRequired();
+            entity.HasIndex(x => x.Email).IsUnique();
+            entity.HasMany(x => x.Roles).WithMany(x => x.Users).UsingEntity("UserRoles");
         });
     }
 }

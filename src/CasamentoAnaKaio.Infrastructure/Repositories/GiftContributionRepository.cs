@@ -18,4 +18,11 @@ public sealed class GiftContributionRepository(AppDbContext dbContext) : IGiftCo
             .Include(x => x.Gift)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public async Task<GiftContribution?> GetByProviderPaymentIdAsync(string providerPaymentId, CancellationToken cancellationToken)
+    {
+        return await dbContext.GiftContributions
+            .Include(x => x.Gift)
+            .FirstOrDefaultAsync(x => x.ProviderPaymentId == providerPaymentId, cancellationToken);
+    }
 }

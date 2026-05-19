@@ -1,4 +1,7 @@
 using CasamentoAnaKaio.Application.Abstractions;
+using CasamentoAnaKaio.Application.Security;
+using CasamentoAnaKaio.Application.Services;
+using CasamentoAnaKaio.Infrastructure.Options;
 using CasamentoAnaKaio.Infrastructure.Payments;
 using CasamentoAnaKaio.Infrastructure.Persistence;
 using CasamentoAnaKaio.Infrastructure.Repositories;
@@ -13,13 +16,49 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
+        // Repositórios
         services.AddScoped<IGuestConfirmationRepository, GuestConfirmationRepository>();
         services.AddScoped<IGiftRepository, GiftRepository>();
         services.AddScoped<IGiftContributionRepository, GiftContributionRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IPixPaymentService, MockPixPaymentService>();
+
+        // Segurança
+        services.AddSingleton<PasswordHasher>();
+
+        // JWT e Tokens
+        var jwtOptions = new JwtOptions();
+        configuration.GetSection("Jwt").Bind(jwtOptions);
+        services.AddSingleton(jwtOptions);
+        services.AddSingleton<ITokenService>(sp =>
+            new JwtTokenGenerator(
+                jwtOptions.Secret,
+                jwtOptions.Issuer,
+                jwtOptions.Audience,
+                jwtOptions.AccessTokenExpirationMinutes));
+
+        // Autenticação
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+        // Pagamentos
+        var mercadoPagoOptions = new MercadoPagoOptions();
+        configuration.GetSection("MercadoPago").Bind(mercadoPagoOptions);
+        services.AddSingleton(mercadoPagoOptions);
+        services.AddScoped<IPixPaymentService>(sp =>
+        {
+            return mercadoPagoOptions.IsSandbox
+                ? new MockPixPaymentService(configuration)
+                : new MercadoPagoPixPaymentService(mercadoPagoOptions);
+        });
+        services.AddSingleton<IPaymentWebhookValidator>(new PaymentWebhookValidator(mercadoPagoOptions.WebhookSecret));
+
+        // Webhook
+        services.AddScoped<PaymentWebhookService>();
 
         return services;
     }

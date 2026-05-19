@@ -1,0 +1,10 @@
+.vs/
+bin/
+obj/
+logs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+TestResults/
+coverage/

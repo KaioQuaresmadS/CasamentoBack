@@ -1,0 +1,11 @@
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\bin\Debug\net10.0\CasamentoAnaKaio.Domain.deps.json
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\bin\Debug\net10.0\CasamentoAnaKaio.Domain.dll
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\bin\Debug\net10.0\CasamentoAnaKaio.Domain.pdb
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.AssemblyInfoInputs.cache
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.AssemblyInfo.cs
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.csproj.CoreCompileInputs.cache
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.dll
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\refint\CasamentoAnaKaio.Domain.dll
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.pdb
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\ref\CasamentoAnaKaio.Domain.dll

@@ -1,0 +1,53 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "CasamentoAnaKaio.Application/1.0.0": {
+        "dependencies": {
+          "CasamentoAnaKaio.Contracts": "1.0.0",
+          "CasamentoAnaKaio.Domain": "1.0.0"
+        },
+        "runtime": {
+          "CasamentoAnaKaio.Application.dll": {}
+        }
+      },
+      "CasamentoAnaKaio.Contracts/1.0.0": {
+        "runtime": {
+          "CasamentoAnaKaio.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "CasamentoAnaKaio.Domain/1.0.0": {
+        "runtime": {
+          "CasamentoAnaKaio.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CasamentoAnaKaio.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CasamentoAnaKaio.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CasamentoAnaKaio.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

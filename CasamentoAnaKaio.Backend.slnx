@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj" />
+    <Project Path="src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj" />
+    <Project Path="src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj" />
+    <Project Path="src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj" />
+    <Project Path="src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CasamentoAnaKaio.Tests/CasamentoAnaKaio.Tests.csproj" />
+  </Folder>
+</Solution>

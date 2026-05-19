@@ -25,7 +25,6 @@ if (!string.IsNullOrWhiteSpace(renderPort) &&
     builder.WebHost.UseUrls($"http://0.0.0.0:{renderPort}");
 }
 
-// Serilog Configuration
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .WriteTo.Console()
@@ -45,7 +44,6 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
-// Controllers e OpenAPI
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(options =>
 {
@@ -73,19 +71,16 @@ builder.Services.AddOpenApi(options =>
 });
 builder.Services.AddHealthChecks();
 
-// Validação FluentValidation
 builder.Services
     .AddFluentValidationAutoValidation()
     .AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
-// Infrastructure Services
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<GuestConfirmationService>();
 builder.Services.AddScoped<GiftService>();
 builder.Services.AddScoped<GiftContributionService>();
 builder.Services.AddScoped<PaymentWebhookService>();
 
-// CORS Configuration
 builder.Services.AddCors(options =>
 {
     var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
@@ -101,7 +96,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// JWT Configuration
 var jwtSecret = builder.Configuration["Jwt:Secret"];
 if (string.IsNullOrWhiteSpace(jwtSecret) || jwtSecret.Length < 32)
 {
@@ -150,16 +144,12 @@ var app = builder.Build();
 
 app.UseForwardedHeaders();
 
-// Middleware Order is important
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 
 app.MapOpenApi();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// UseHttpsRedirection removido — o Render gerencia HTTPS no proxy
 
 app.UseCors(AngularCorsPolicy);
 app.UseAuthentication();

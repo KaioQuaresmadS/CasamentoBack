@@ -368,3 +368,5 @@ C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoA
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Api\obj\Debug\net10.0\CasamentoAnaKaio.Api.pdb
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Api\obj\Debug\net10.0\CasamentoAnaKaio.Api.genruntimeconfig.cache
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Api\obj\Debug\net10.0\ref\CasamentoAnaKaio.Api.dll
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Api\bin\Debug\net10.0\Npgsql.dll
+C:\Users\kaio.souza\Desktop\Códigos\Template\template-backend\src\CasamentoAnaKaio.Api\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

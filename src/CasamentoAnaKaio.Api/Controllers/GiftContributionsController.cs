@@ -13,8 +13,10 @@ public sealed class GiftContributionsController(GiftContributionService service)
         CreateGiftContributionRequest request,
         CancellationToken cancellationToken)
     {
-        var response = await service.CreateAsync(request, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
+        await Task.CompletedTask;
+        return StatusCode(
+            StatusCodes.Status410Gone,
+            new { message = "Use /api/payments/create para criar pagamentos via Mercado Pago." });
     }
 
     [HttpGet("{id:guid}")]

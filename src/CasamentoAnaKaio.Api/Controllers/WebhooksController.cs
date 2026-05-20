@@ -10,31 +10,16 @@ namespace CasamentoAnaKaio.Api.Controllers;
 public sealed class WebhooksController(PaymentWebhookService webhookService) : ControllerBase
 {
     [HttpPost("mercado-pago/payments")]
-    public async Task<IActionResult> MercadoPagoPaymentWebhook(
-        [FromHeader(Name = "X-Signature")] string signature,
-        [FromBody] object payload,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> MercadoPagoPaymentWebhook(CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(signature))
-        {
-            return BadRequest("Assinatura de webhook não fornecida.");
-        }
+        using var reader = new StreamReader(Request.Body);
+        var payload = await reader.ReadToEndAsync();
+        var processed = await webhookService.ProcessWebhookAsync(
+            payload,
+            Request.Headers.ToDictionary(header => header.Key.ToLowerInvariant(), header => header.Value.ToString()),
+            Request.Query.ToDictionary(item => item.Key, item => item.Value.ToString()),
+            cancellationToken);
 
-        var payloadJson = System.Text.Json.JsonSerializer.Serialize(payload);
-        var isValid = await webhookService.ValidateWebhookSignatureAsync(payloadJson, signature);
-
-        if (!isValid)
-        {
-            return Unauthorized("Assinatura de webhook inválida.");
-        }
-
-        var processed = await webhookService.ProcessWebhookAsync(payloadJson, signature, cancellationToken);
-
-        if (!processed)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar webhook.");
-        }
-
-        return Ok(new { message = "Webhook processado com sucesso." });
+        return processed ? Ok(new { message = "Webhook processado." }) : BadRequest(new { message = "Webhook ignorado." });
     }
 }

@@ -1,13 +1,12 @@
-﻿# Casamento Ana e Kaio Backend
+# Casamento Ana e Kaio Backend
 
-API ASP.NET Core para lista de presentes, RSVP, autenticacao administrativa JWT e pagamentos PIX.
+API ASP.NET Core para lista de presentes, RSVP, autenticacao administrativa JWT e pagamentos Mercado Pago.
 
 ## Render
 
 Configure o servico como Web Service com:
 
 ```text
-Root Directory: template-backend
 Build Command: dotnet restore && dotnet build CasamentoAnaKaio.Backend.slnx -c Release --no-restore
 Start Command: dotnet run --project src/CasamentoAnaKaio.Api -c Release --no-build
 ```
@@ -23,32 +22,46 @@ ASPNETCORE_ENVIRONMENT=Production
 Jwt__Secret=<chave forte com pelo menos 32 caracteres>
 Jwt__Issuer=CasamentoAnaKaio
 Jwt__Audience=CasamentoAnaKaioClient
-ConnectionStrings__DefaultConnection=<connection string SQL Server>
-MercadoPago__AccessToken=<access token Mercado Pago>
-MercadoPago__WebhookSecret=<secret do webhook>
-MercadoPago__IsSandbox=false
-MercadoPago__ExternalPosId=CASAMENTO_ANA_KAIO
+ConnectionStrings__DefaultConnection=<connection string Postgres>
+MERCADOPAGO_ACCESS_TOKEN=<access token Mercado Pago>
+MERCADOPAGO_PUBLIC_KEY=<public key Mercado Pago>
+MERCADOPAGO_WEBHOOK_SECRET=<secret do webhook>
+MERCADOPAGO_ENVIRONMENT=sandbox
+FRONTEND_URL=https://seu-front-end.com
+BACKEND_URL=https://casamentoback-iuya.onrender.com
 AdminSeed__Email=<email admin>
 AdminSeed__Name=<nome admin>
 AdminSeed__Password=<senha forte>
-Cors__AllowedOrigins__0=https://casamentoback-iuya.onrender.com
+Cors__AllowedOrigins__0=https://seu-front-end.com
 ```
 
-Se o frontend ficar em outro dominio, adicione:
-
-```text
-Cors__AllowedOrigins__1=https://seu-front-end.com
-```
+Em producao, use `MERCADOPAGO_ENVIRONMENT=production` e credenciais de producao.
 
 ## Banco
 
-O projeto esta configurado com Entity Framework Core para SQL Server. Antes do primeiro uso em producao, aplique as migrations:
+O projeto esta configurado com Entity Framework Core para PostgreSQL via Npgsql. Antes do primeiro uso apos deploy, aplique as migrations:
 
 ```powershell
 dotnet ef database update --project src/CasamentoAnaKaio.Infrastructure --startup-project src/CasamentoAnaKaio.Api
 ```
 
-Em provedores como Render, o banco nativo e PostgreSQL. Para usar Render PostgreSQL, e necessario trocar o provider EF Core de SQL Server para Npgsql e gerar novas migrations.
+No Render, configure `ConnectionStrings__DefaultConnection` com a connection string externa do Postgres.
+
+## Mercado Pago
+
+Fluxo atual:
+
+- `POST /api/payments/create` cria uma preferencia Checkout Pro com `external_reference`.
+- `GET /api/payments/{id}/status` consulta status interno e, quando ha `payment_id`, valida contra a API do Mercado Pago.
+- `POST /api/payments/webhook/mercadopago` recebe notificacoes, valida assinatura quando `MERCADOPAGO_WEBHOOK_SECRET` estiver configurado, consulta a API do Mercado Pago e so entao atualiza o banco.
+
+Configure no painel Mercado Pago a URL de webhook:
+
+```text
+https://seu-backend.com/api/payments/webhook/mercadopago
+```
+
+Para testar localmente, exponha a API com ngrok ou localtunnel e use a URL publica no painel Mercado Pago. Use usuarios e cartoes de teste do Mercado Pago em sandbox.
 
 ## Health Check
 

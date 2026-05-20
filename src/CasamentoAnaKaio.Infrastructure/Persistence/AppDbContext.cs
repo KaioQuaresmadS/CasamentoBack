@@ -101,12 +101,22 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
         {
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Amount).HasPrecision(10, 2);
-            entity.Property(x => x.MercadoPagoPaymentId).HasMaxLength(120).IsRequired();
-            entity.Property(x => x.Status).HasMaxLength(40).IsRequired();
-            entity.Property(x => x.PixQrCode).HasMaxLength(4000).IsRequired();
-            entity.Property(x => x.PixCopyPaste).HasMaxLength(4000).IsRequired();
+            entity.Property(x => x.MercadoPagoPaymentId).HasMaxLength(120);
+            entity.Property(x => x.PreferenceId).HasMaxLength(120);
+            entity.Property(x => x.InitPoint).HasMaxLength(1000);
+            entity.Property(x => x.SandboxInitPoint).HasMaxLength(1000);
+            entity.Property(x => x.ExternalReference).HasMaxLength(120).IsRequired();
+            entity.Property(x => x.PaymentMethod).HasMaxLength(40).IsRequired();
+            entity.Property(x => x.PayerName).HasMaxLength(160).IsRequired();
+            entity.Property(x => x.PayerEmail).HasMaxLength(256).IsRequired();
+            entity.Property(x => x.Status).HasConversion<string>().HasMaxLength(40);
+            entity.Property(x => x.MercadoPagoStatus).HasMaxLength(40).IsRequired();
+            entity.Property(x => x.PixQrCode).HasMaxLength(4000);
+            entity.Property(x => x.PixCopyPaste).HasMaxLength(4000);
             entity.HasIndex(x => x.GiftContributionId);
             entity.HasIndex(x => x.MercadoPagoPaymentId);
+            entity.HasIndex(x => x.PreferenceId);
+            entity.HasIndex(x => x.ExternalReference);
         });
 
         modelBuilder.Entity<Role>(entity =>

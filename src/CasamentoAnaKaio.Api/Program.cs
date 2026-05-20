@@ -79,6 +79,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<GuestConfirmationService>();
 builder.Services.AddScoped<GiftService>();
 builder.Services.AddScoped<GiftContributionService>();
+builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<PaymentWebhookService>();
 
 builder.Services.AddCors(options =>

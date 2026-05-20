@@ -69,6 +69,11 @@ public class GiftContribution
 
     public void MarkAsPaid()
     {
+        if (PaymentStatus == PaymentStatus.Paid)
+        {
+            return;
+        }
+
         PaymentStatus = PaymentStatus.Paid;
         PaidAt = DateTimeOffset.UtcNow;
     }
@@ -76,5 +81,48 @@ public class GiftContribution
     public void MarkAsFailed()
     {
         PaymentStatus = PaymentStatus.Failed;
+    }
+
+    public void MarkAsPending()
+    {
+        PaymentStatus = PaymentStatus.Pending;
+    }
+
+    public void MarkAsProcessing()
+    {
+        PaymentStatus = PaymentStatus.Processing;
+    }
+
+    public void MarkAsCancelled()
+    {
+        PaymentStatus = PaymentStatus.Cancelled;
+    }
+
+    public void MarkAsRefunded()
+    {
+        PaymentStatus = PaymentStatus.Refunded;
+    }
+
+    public void MarkAsChargedBack()
+    {
+        PaymentStatus = PaymentStatus.ChargedBack;
+    }
+
+    public void MarkAsExpired()
+    {
+        PaymentStatus = PaymentStatus.Expired;
+    }
+
+    public void MarkAsUnknown()
+    {
+        PaymentStatus = PaymentStatus.Unknown;
+    }
+
+    public void SetProviderPaymentId(string providerPaymentId)
+    {
+        if (!string.IsNullOrWhiteSpace(providerPaymentId))
+        {
+            ProviderPaymentId = providerPaymentId.Trim();
+        }
     }
 }

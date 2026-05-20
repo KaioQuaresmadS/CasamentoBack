@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-const string AngularCorsPolicy = "AngularCors";
+const string FrontendCorsPolicy = "FrontendPolicy";
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -21,10 +21,26 @@ builder.Services.AddScoped<PaymentWebhookService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(AngularCorsPolicy, policy =>
+    options.AddPolicy(FrontendCorsPolicy, policy =>
     {
+        var allowedOrigins = builder.Configuration
+            .GetSection("Cors:AllowedOrigins")
+            .Get<string[]>()
+            ?.Where(origin => !string.IsNullOrWhiteSpace(origin))
+            .ToArray();
+
+        if (allowedOrigins is null || allowedOrigins.Length == 0)
+        {
+            allowedOrigins =
+            [
+                "https://casamento-ana-kaio.netlify.app",
+                "http://localhost:4200",
+                "http://127.0.0.1:4200"
+            ];
+        }
+
         policy
-            .WithOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+            .WithOrigins(allowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -61,7 +77,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseCors(AngularCorsPolicy);
+app.UseRouting();
+app.UseCors(FrontendCorsPolicy);
 app.MapControllers();
 app.MapHealthChecks("/health");
 

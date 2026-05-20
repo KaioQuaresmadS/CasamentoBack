@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CasamentoAnaKaio.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21f9ada3aceeb8eab478fa367336901a9c916625")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14c743b5997a3dd3a4ec63b8a357186e6fe3a523")]
 [assembly: System.Reflection.AssemblyProductAttribute("CasamentoAnaKaio.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CasamentoAnaKaio.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

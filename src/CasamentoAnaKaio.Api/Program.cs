@@ -11,6 +11,7 @@ const string AngularCorsPolicy = "AngularCors";
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddHealthChecks();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<GuestConfirmationService>();
 builder.Services.AddScoped<GiftService>();
@@ -30,27 +31,6 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
-app.Lifetime.ApplicationStarted.Register(() =>
-{
-    _ = Task.Run(async () =>
-    {
-        await using var scope = app.Services.CreateAsyncScope();
-        var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("DatabaseMigration");
-
-        try
-        {
-            logger.LogInformation("Applying database migrations.");
-            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await dbContext.Database.MigrateAsync();
-            logger.LogInformation("Database migrations applied.");
-        }
-        catch (Exception exception)
-        {
-            logger.LogError(exception, "Failed to apply database migrations.");
-        }
-    });
-});
 
 app.UseExceptionHandler(errorApp =>
 {
@@ -83,5 +63,28 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(AngularCorsPolicy);
 app.MapControllers();
+app.MapHealthChecks("/health");
 
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+_ = Task.Run(async () =>
+{
+    var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("DatabaseMigration");
+
+    try
+    {
+        using var scope = scopeFactory.CreateScope();
+        logger.LogInformation("Applying database migrations in background.");
+
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await dbContext.Database.MigrateAsync();
+
+        logger.LogInformation("Database migrations applied.");
+    }
+    catch (Exception exception)
+    {
+        logger.LogError(exception, "Database migration failed.");
+    }
+});
+
+app.Logger.LogInformation("Application configured. Starting web host.");
 app.Run();

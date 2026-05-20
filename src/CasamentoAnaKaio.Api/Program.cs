@@ -31,12 +31,26 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply migrations automatically on startup
-using (var scope = app.Services.CreateScope())
+app.Lifetime.ApplicationStarted.Register(() =>
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();
-}
+    _ = Task.Run(async () =>
+    {
+        await using var scope = app.Services.CreateAsyncScope();
+        var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("DatabaseMigration");
+
+        try
+        {
+            logger.LogInformation("Applying database migrations.");
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await dbContext.Database.MigrateAsync();
+            logger.LogInformation("Database migrations applied.");
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, "Failed to apply database migrations.");
+        }
+    });
+});
 
 app.UseExceptionHandler(errorApp =>
 {
@@ -65,11 +79,6 @@ app.UseExceptionHandler(errorApp =>
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-}
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
 }
 
 app.UseCors(AngularCorsPolicy);

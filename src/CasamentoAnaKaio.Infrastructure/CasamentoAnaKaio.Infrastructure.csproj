@@ -1,10 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <Compile Remove="Persistence\Migrations\**\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CasamentoAnaKaio.Application\CasamentoAnaKaio.Application.csproj" />
     <ProjectReference Include="..\CasamentoAnaKaio.Domain\CasamentoAnaKaio.Domain.csproj" />
   </ItemGroup>

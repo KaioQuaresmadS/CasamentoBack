@@ -13,8 +13,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = BuildPostgresConnectionString(configuration);
+
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(connectionString));
 
         services.AddScoped<IGuestConfirmationRepository, GuestConfirmationRepository>();
         services.AddScoped<IGiftRepository, GiftRepository>();
@@ -50,5 +52,45 @@ public static class DependencyInjection
         options.FrontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? options.FrontendUrl;
         options.BackendUrl = Environment.GetEnvironmentVariable("BACKEND_URL") ?? options.BackendUrl;
         options.Environment = Environment.GetEnvironmentVariable("MERCADOPAGO_ENVIRONMENT") ?? options.Environment;
+    }
+
+    private static string BuildPostgresConnectionString(IConfiguration configuration)
+    {
+        var connectionString = FirstNotBlank(
+            Environment.GetEnvironmentVariable("DATABASE_URL"),
+            Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection"),
+            configuration.GetConnectionString("DefaultConnection"),
+            configuration["ConnectionStrings:DefaultConnection"]);
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException("Configure ConnectionStrings__DefaultConnection ou DATABASE_URL.");
+        }
+
+        return NormalizePostgresConnectionString(connectionString);
+    }
+
+    private static string NormalizePostgresConnectionString(string connectionString)
+    {
+        if (!connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) &&
+            !connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+        {
+            return connectionString;
+        }
+
+        var uri = new Uri(connectionString);
+        var credentials = uri.UserInfo.Split(':', 2);
+        var username = Uri.UnescapeDataString(credentials[0]);
+        var password = credentials.Length > 1 ? Uri.UnescapeDataString(credentials[1]) : string.Empty;
+        var database = Uri.UnescapeDataString(uri.AbsolutePath.TrimStart('/'));
+        var port = uri.IsDefaultPort ? 5432 : uri.Port;
+
+        return
+            $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+    }
+
+    private static string? FirstNotBlank(params string?[] values)
+    {
+        return values.FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
     }
 }

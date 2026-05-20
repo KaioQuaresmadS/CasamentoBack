@@ -28,10 +28,35 @@ public sealed class PaymentServiceTests
 
         Assert.Equal("Pending", response.Status);
         Assert.Equal("pref-123", response.PreferenceId);
+        Assert.Equal("https://mp.example/init", response.InitPoint);
+        Assert.Equal("https://mp.example/sandbox", response.SandboxInitPoint);
+        Assert.Equal("https://mp.example/sandbox", response.CheckoutUrl);
+        Assert.Equal(response.CheckoutUrl, response.PaymentUrl);
         Assert.Single(contributionRepository.Contributions);
         Assert.Single(paymentRepository.Payments);
         Assert.Equal("pix", client.LastRequest?.PaymentMethod);
         Assert.Equal(1, unitOfWork.SaveChangesCount);
+    }
+
+    [Fact]
+    public async Task CreateAsync_ThrowsWhenMercadoPagoDoesNotReturnPaymentUrl()
+    {
+        var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            new FakeGiftContributionRepository(),
+            new FakePaymentRepository(),
+            new FakeMercadoPagoPaymentClient
+            {
+                PreferenceResult = new MercadoPagoPreferenceResult("pref-empty", string.Empty, string.Empty)
+            },
+            new FakeUnitOfWork());
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(
+            new CreatePaymentRequest(gift.Id, "Maria Silva", "maria@example.com", "11999999999", "FullGift", 0, "pix"),
+            CancellationToken.None));
+
+        Assert.Contains("link de pagamento", exception.Message);
     }
 
     private sealed class FakeGiftRepository(Gift gift) : IGiftRepository
@@ -79,6 +104,8 @@ public sealed class PaymentServiceTests
     private sealed class FakeMercadoPagoPaymentClient : IMercadoPagoPaymentClient
     {
         public MercadoPagoPreferenceRequest? LastRequest { get; private set; }
+        public MercadoPagoPreferenceResult PreferenceResult { get; init; } =
+            new("pref-123", "https://mp.example/init", "https://mp.example/sandbox");
 
         public Task<MercadoPagoPreferenceResult> CreateCheckoutPreferenceAsync(
             MercadoPagoPreferenceRequest request,
@@ -86,7 +113,7 @@ public sealed class PaymentServiceTests
             CancellationToken cancellationToken)
         {
             LastRequest = request;
-            return Task.FromResult(new MercadoPagoPreferenceResult("pref-123", "https://mp.example/init", "https://mp.example/sandbox"));
+            return Task.FromResult(PreferenceResult);
         }
 
         public Task<MercadoPagoPaymentDetails> GetPaymentAsync(string paymentId, CancellationToken cancellationToken)

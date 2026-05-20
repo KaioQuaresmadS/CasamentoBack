@@ -58,6 +58,7 @@ public sealed class PaymentService(
             $"{contribution.Id:N}-{payment.Id:N}-{paymentMethod}",
             cancellationToken);
 
+        EnsureCheckoutPreferenceHasPaymentUrl(preference);
         payment.SetCheckoutPreference(preference.Id, preference.InitPoint, preference.SandboxInitPoint);
 
         await contributionRepository.AddAsync(contribution, cancellationToken);
@@ -115,9 +116,27 @@ public sealed class PaymentService(
             payment.PaymentMethod,
             payment.Amount,
             checkoutUrl,
+            payment.InitPoint,
+            payment.SandboxInitPoint,
+            checkoutUrl,
+            null,
+            null,
+            null,
+            string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
+            string.IsNullOrWhiteSpace(payment.PixQrCode) ? null : payment.PixQrCode,
+            string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
             payment.PreferenceId,
             string.IsNullOrWhiteSpace(payment.MercadoPagoPaymentId) ? null : payment.MercadoPagoPaymentId,
             payment.ExternalReference);
+    }
+
+    private static void EnsureCheckoutPreferenceHasPaymentUrl(MercadoPagoPreferenceResult preference)
+    {
+        if (string.IsNullOrWhiteSpace(preference.InitPoint) &&
+            string.IsNullOrWhiteSpace(preference.SandboxInitPoint))
+        {
+            throw new InvalidOperationException("Mercado Pago criou a preferencia, mas nao retornou link de pagamento.");
+        }
     }
 
     private static string NormalizePaymentMethod(string paymentMethod)

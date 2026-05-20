@@ -104,9 +104,9 @@ public sealed class MercadoPagoPaymentClient(
             notification_url = $"{backendUrl}/api/payments/webhook/mercadopago",
             back_urls = new
             {
-                success = $"{frontendUrl}/?payment=success",
-                pending = $"{frontendUrl}/?payment=pending",
-                failure = $"{frontendUrl}/?payment=failure"
+                success = $"{frontendUrl}/pagamento/sucesso",
+                pending = $"{frontendUrl}/pagamento/pendente",
+                failure = $"{frontendUrl}/pagamento/falha"
             },
             auto_return = "approved",
             statement_descriptor = "ANA E KAIO",

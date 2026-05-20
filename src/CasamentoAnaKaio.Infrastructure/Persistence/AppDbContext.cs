@@ -1,4 +1,5 @@
 using CasamentoAnaKaio.Domain.Entities;
+using CasamentoAnaKaio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CasamentoAnaKaio.Infrastructure.Persistence;
@@ -89,6 +90,56 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
             entity.Property(x => x.Mode).HasConversion<string>().HasMaxLength(30);
             entity.Property(x => x.PaymentStatus).HasConversion<string>().HasMaxLength(30);
             entity.HasOne(x => x.Gift).WithMany(x => x.Contributions).HasForeignKey(x => x.GiftId);
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Name).HasMaxLength(100).IsRequired();
+            entity.Property(x => x.Description).HasMaxLength(500).IsRequired();
+
+            entity.HasData(
+                new
+                {
+                    Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                    Name = "Admin",
+                    RoleType = RoleType.Admin,
+                    Description = "Acesso administrativo completo.",
+                    IsActive = true,
+                    CreatedAt = new DateTimeOffset(2026, 5, 19, 0, 0, 0, TimeSpan.Zero)
+                },
+                new
+                {
+                    Id = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
+                    Name = "User",
+                    RoleType = RoleType.User,
+                    Description = "Usuario autenticado.",
+                    IsActive = true,
+                    CreatedAt = new DateTimeOffset(2026, 5, 19, 0, 0, 0, TimeSpan.Zero)
+                },
+                new
+                {
+                    Id = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                    Name = "Guest",
+                    RoleType = RoleType.Guest,
+                    Description = "Convidado com acesso publico.",
+                    IsActive = true,
+                    CreatedAt = new DateTimeOffset(2026, 5, 19, 0, 0, 0, TimeSpan.Zero)
+                });
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Email).HasMaxLength(256).IsRequired();
+            entity.Property(x => x.Name).HasMaxLength(160).IsRequired();
+            entity.Property(x => x.PasswordHash).IsRequired();
+            entity.HasIndex(x => x.Email).IsUnique();
+
+            entity
+                .HasMany(x => x.Roles)
+                .WithMany(x => x.Users)
+                .UsingEntity("UserRoles");
         });
 
         modelBuilder.Entity<Payment>(entity =>

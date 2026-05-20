@@ -23,7 +23,7 @@ public sealed class PaymentWebhookServiceTests
             """{"data":{"id":"mp-123"},"status":"rejected"}""",
             "ts=1,v1=abc",
             "request-1",
-            new Dictionary<string, string>(),
+            EmptyQuery(),
             CancellationToken.None);
 
         Assert.True(processed);
@@ -50,7 +50,7 @@ public sealed class PaymentWebhookServiceTests
             """{"data":{"id":"mp-123"},"status":"approved"}""",
             "ts=1,v1=abc",
             "request-1",
-            new Dictionary<string, string>(),
+            EmptyQuery(),
             CancellationToken.None);
 
         Assert.False(processed);
@@ -70,9 +70,9 @@ public sealed class PaymentWebhookServiceTests
             unitOfWork,
             new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, null, null, null, null, null));
 
-        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}""", "ts=1,v1=abc", "request-1", new Dictionary<string, string>(), CancellationToken.None);
+        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}}""", "ts=1,v1=abc", "request-1", EmptyQuery(), CancellationToken.None);
         var firstPaidAt = contribution.PaidAt;
-        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}""", "ts=1,v1=abc", "request-1", new Dictionary<string, string>(), CancellationToken.None);
+        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}}""", "ts=1,v1=abc", "request-1", EmptyQuery(), CancellationToken.None);
 
         Assert.Equal(PaymentStatus.Paid, contribution.PaymentStatus);
         Assert.Equal(firstPaidAt, contribution.PaidAt);
@@ -105,6 +105,11 @@ public sealed class PaymentWebhookServiceTests
             new FakePaymentWebhookValidator(true),
             new FakeMercadoPagoPaymentClient(paymentDetails),
             unitOfWork);
+    }
+
+    private static IReadOnlyDictionary<string, string?> EmptyQuery()
+    {
+        return new Dictionary<string, string?>();
     }
 
     private static GiftContribution CreateContribution(string providerPaymentId)

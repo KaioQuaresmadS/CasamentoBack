@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+logs/
+*.user
+*.suo
+*.nupkg
+TestResults/
+coverage/
+
+# Local secrets
+appsettings.Local.json
+*.Development.local.json

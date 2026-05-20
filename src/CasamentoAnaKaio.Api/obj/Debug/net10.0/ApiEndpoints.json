@@ -1,0 +1,224 @@
+[
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GiftContributionsController",
+    "Method": "Create",
+    "RelativePath": "api/gift-contributions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CasamentoAnaKaio.Contracts.GiftContributions.CreateGiftContributionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.GiftContributions.GiftContributionResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GiftContributionsController",
+    "Method": "GetById",
+    "RelativePath": "api/gift-contributions/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.GiftContributions.GiftContributionResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GiftContributionsController",
+    "Method": "GetStatus",
+    "RelativePath": "api/gift-contributions/{id}/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.GiftContributions.PaymentStatusResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GiftsController",
+    "Method": "List",
+    "RelativePath": "api/gifts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[CasamentoAnaKaio.Contracts.Gifts.GiftResponse, CasamentoAnaKaio.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GiftsController",
+    "Method": "GetById",
+    "RelativePath": "api/gifts/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.Gifts.GiftResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GuestConfirmationsController",
+    "Method": "Create",
+    "RelativePath": "api/guest-confirmations",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CasamentoAnaKaio.Contracts.GuestConfirmations.CreateGuestConfirmationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.GuestConfirmations.GuestConfirmationResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.GuestConfirmationsController",
+    "Method": "List",
+    "RelativePath": "api/guest-confirmations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[CasamentoAnaKaio.Contracts.GuestConfirmations.GuestConfirmationResponse, CasamentoAnaKaio.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.PaymentsController",
+    "Method": "SimulateFailure",
+    "RelativePath": "api/payments/{contributionId}/simulate-failure",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contributionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.GiftContributions.PaymentStatusResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CasamentoAnaKaio.Api.Controllers.PaymentsController",
+    "Method": "SimulateSuccess",
+    "RelativePath": "api/payments/{contributionId}/simulate-success",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contributionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CasamentoAnaKaio.Contracts.GiftContributions.PaymentStatusResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

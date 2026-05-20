@@ -2,7 +2,6 @@ using CasamentoAnaKaio.Application.Abstractions;
 using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Domain.Entities;
 using CasamentoAnaKaio.Domain.Enums;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace CasamentoAnaKaio.Tests;
 
@@ -18,17 +17,18 @@ public sealed class PaymentWebhookServiceTests
             contribution,
             payment,
             unitOfWork,
-            new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, "pix", payment.Amount, null, null));
+            new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, null, null, null, null, null));
 
         var processed = await service.ProcessWebhookAsync(
             """{"data":{"id":"mp-123"},"status":"rejected"}""",
-            ValidHeaders(),
+            "ts=1,v1=abc",
+            "request-1",
             new Dictionary<string, string>(),
             CancellationToken.None);
 
         Assert.True(processed);
         Assert.Equal(PaymentStatus.Paid, contribution.PaymentStatus);
-        Assert.Equal(PaymentStatus.Paid, payment.Status);
+        Assert.Equal("Paid", payment.Status);
         Assert.NotNull(contribution.PaidAt);
         Assert.Equal(1, unitOfWork.SaveChangesCount);
     }
@@ -42,14 +42,14 @@ public sealed class PaymentWebhookServiceTests
         var service = new PaymentWebhookService(
             new FakeGiftContributionRepository(contribution),
             new FakePaymentRepository(payment),
-            new FakeMercadoPagoPaymentClient(new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, "pix", payment.Amount, null, null)),
             new FakePaymentWebhookValidator(false),
-            unitOfWork,
-            NullLogger<PaymentWebhookService>.Instance);
+            new FakeMercadoPagoPaymentClient(new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, null, null, null, null, null)),
+            unitOfWork);
 
         var processed = await service.ProcessWebhookAsync(
             """{"data":{"id":"mp-123"},"status":"approved"}""",
-            ValidHeaders(),
+            "ts=1,v1=abc",
+            "request-1",
             new Dictionary<string, string>(),
             CancellationToken.None);
 
@@ -68,11 +68,11 @@ public sealed class PaymentWebhookServiceTests
             contribution,
             payment,
             unitOfWork,
-            new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, "pix", payment.Amount, null, null));
+            new MercadoPagoPaymentDetails("mp-123", "approved", payment.ExternalReference, null, null, null, null, null));
 
-        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}}""", ValidHeaders(), new Dictionary<string, string>(), CancellationToken.None);
+        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}""", "ts=1,v1=abc", "request-1", new Dictionary<string, string>(), CancellationToken.None);
         var firstPaidAt = contribution.PaidAt;
-        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}}""", ValidHeaders(), new Dictionary<string, string>(), CancellationToken.None);
+        await service.ProcessWebhookAsync("""{"data":{"id":"mp-123"}""", "ts=1,v1=abc", "request-1", new Dictionary<string, string>(), CancellationToken.None);
 
         Assert.Equal(PaymentStatus.Paid, contribution.PaymentStatus);
         Assert.Equal(firstPaidAt, contribution.PaidAt);
@@ -90,7 +90,7 @@ public sealed class PaymentWebhookServiceTests
     [InlineData("expired", PaymentStatus.Expired)]
     public void MapStatus_MapsMercadoPagoStatus(string mercadoPagoStatus, PaymentStatus expected)
     {
-        Assert.Equal(expected, PaymentService.MapStatus(mercadoPagoStatus));
+        Assert.Equal(expected, PaymentService.MapMercadoPagoStatus(mercadoPagoStatus));
     }
 
     private static PaymentWebhookService CreateService(
@@ -102,19 +102,9 @@ public sealed class PaymentWebhookServiceTests
         return new PaymentWebhookService(
             new FakeGiftContributionRepository(contribution),
             new FakePaymentRepository(payment),
-            new FakeMercadoPagoPaymentClient(paymentDetails),
             new FakePaymentWebhookValidator(true),
-            unitOfWork,
-            NullLogger<PaymentWebhookService>.Instance);
-    }
-
-    private static Dictionary<string, string> ValidHeaders()
-    {
-        return new Dictionary<string, string>
-        {
-            ["x-signature"] = "ts=1,v1=abc",
-            ["x-request-id"] = "request-1"
-        };
+            new FakeMercadoPagoPaymentClient(paymentDetails),
+            unitOfWork);
     }
 
     private static GiftContribution CreateContribution(string providerPaymentId)
@@ -135,11 +125,11 @@ public sealed class PaymentWebhookServiceTests
     {
         var payment = new Payment(
             contribution.Id,
-            contribution.Id.ToString("N"),
-            "pix",
             contribution.Amount,
+            "pix",
             contribution.ContributorName,
-            "maria@example.com");
+            "maria@example.com",
+            contribution.Id.ToString("N"));
         payment.SetCheckoutPreference("pref-123", "https://mp.example/init", "https://mp.example/sandbox");
         return payment;
     }

@@ -13,11 +13,13 @@ public sealed class WebhooksController(PaymentWebhookService webhookService) : C
     public async Task<IActionResult> MercadoPagoPaymentWebhook(CancellationToken cancellationToken)
     {
         using var reader = new StreamReader(Request.Body);
-        var payload = await reader.ReadToEndAsync();
+        var payload = await reader.ReadToEndAsync(cancellationToken);
+
         var processed = await webhookService.ProcessWebhookAsync(
             payload,
-            Request.Headers.ToDictionary(header => header.Key.ToLowerInvariant(), header => header.Value.ToString()),
-            Request.Query.ToDictionary(item => item.Key, item => item.Value.ToString()),
+            Request.Headers["x-signature"].ToString() ?? string.Empty,
+            Request.Headers["x-request-id"].ToString() ?? string.Empty,
+            Request.Query.ToDictionary(item => item.Key, item => (string?)item.Value.ToString()),
             cancellationToken);
 
         return processed ? Ok(new { message = "Webhook processado." }) : BadRequest(new { message = "Webhook ignorado." });

@@ -2,7 +2,6 @@ using CasamentoAnaKaio.Application.Abstractions;
 using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace CasamentoAnaKaio.Tests;
 
@@ -21,16 +20,13 @@ public sealed class PaymentServiceTests
             contributionRepository,
             paymentRepository,
             client,
-            unitOfWork,
-            NullLogger<PaymentService>.Instance);
+            unitOfWork);
 
         var response = await service.CreateAsync(
-            new CreatePaymentRequest(gift.Id, "Maria Silva", "maria@example.com", "11999999999", "pix", "FullGift", 0),
-            "https://front.example",
-            "https://back.example",
+            new CreatePaymentRequest(gift.Id, "Maria Silva", "maria@example.com", "11999999999", "FullGift", 0, "pix"),
             CancellationToken.None);
 
-        Assert.Equal("Pending", response.PaymentStatus);
+        Assert.Equal("Pending", response.Status);
         Assert.Equal("pref-123", response.PreferenceId);
         Assert.Single(contributionRepository.Contributions);
         Assert.Single(paymentRepository.Payments);
@@ -95,7 +91,7 @@ public sealed class PaymentServiceTests
 
         public Task<MercadoPagoPaymentDetails> GetPaymentAsync(string paymentId, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new MercadoPagoPaymentDetails(paymentId, "pending", string.Empty, "pix", 280m, null, null));
+            return Task.FromResult(new MercadoPagoPaymentDetails(paymentId, "pending", string.Empty, null, null, null, null, null));
         }
     }
 

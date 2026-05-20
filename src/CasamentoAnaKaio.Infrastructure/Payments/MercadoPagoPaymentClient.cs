@@ -110,29 +110,12 @@ public sealed class MercadoPagoPaymentClient(
             },
             auto_return = "approved",
             statement_descriptor = "ANA E KAIO",
-            payment_methods = new
-            {
-                excluded_payment_types = BuildExcludedPaymentTypes(request.PaymentMethod)
-            },
             metadata = new
             {
                 origin = "casamento_ana_kaio",
                 payment_method = request.PaymentMethod
             }
         };
-    }
-
-    private static object[] BuildExcludedPaymentTypes(string paymentMethod)
-    {
-        var excluded = paymentMethod.ToLowerInvariant() switch
-        {
-            "pix" => ["credit_card", "debit_card", "ticket"],
-            "boleto" => ["credit_card", "debit_card", "bank_transfer"],
-            "credit_card" => ["ticket", "bank_transfer", "debit_card"],
-            _ => Array.Empty<string>()
-        };
-
-        return excluded.Select(id => new { id }).ToArray();
     }
 
     private void EnsureAccessToken()

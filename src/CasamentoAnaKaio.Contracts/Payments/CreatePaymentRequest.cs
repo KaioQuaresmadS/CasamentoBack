@@ -7,4 +7,4 @@ public sealed record CreatePaymentRequest(
     string PayerPhone,
     string Mode,
     int QuotaQuantity,
-    string PaymentMethod);
+    string? PaymentMethod);

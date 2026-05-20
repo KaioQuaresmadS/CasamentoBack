@@ -139,12 +139,21 @@ public sealed class PaymentService(
         }
     }
 
-    private static string NormalizePaymentMethod(string paymentMethod)
+    private static string NormalizePaymentMethod(string? paymentMethod)
     {
+        if (string.IsNullOrWhiteSpace(paymentMethod))
+        {
+            return "mercado_pago";
+        }
+
         return paymentMethod.Trim().ToLowerInvariant() switch
         {
             "pix" => "pix",
             "boleto" => "boleto",
+            "mercado_pago" => "mercado_pago",
+            "mercado-pago" => "mercado_pago",
+            "checkout_pro" => "mercado_pago",
+            "checkout-pro" => "mercado_pago",
             "credit_card" => "credit_card",
             "credit-card" => "credit_card",
             _ => throw new ArgumentException("Forma de pagamento invalida.", nameof(paymentMethod))

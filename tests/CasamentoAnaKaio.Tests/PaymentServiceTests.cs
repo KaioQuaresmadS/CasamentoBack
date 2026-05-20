@@ -59,6 +59,27 @@ public sealed class PaymentServiceTests
         Assert.Contains("link de pagamento", exception.Message);
     }
 
+    [Fact]
+    public async Task CreateAsync_AllowsCheckoutProWithoutSelectedPaymentMethod()
+    {
+        var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
+        var client = new FakeMercadoPagoPaymentClient();
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            new FakeGiftContributionRepository(),
+            new FakePaymentRepository(),
+            client,
+            new FakeUnitOfWork());
+
+        var response = await service.CreateAsync(
+            new CreatePaymentRequest(gift.Id, "Maria Silva", "maria@example.com", "11999999999", "FullGift", 0, null),
+            CancellationToken.None);
+
+        Assert.Equal("mercado_pago", response.PaymentMethod);
+        Assert.Equal("mercado_pago", client.LastRequest?.PaymentMethod);
+        Assert.Equal("https://mp.example/sandbox", response.SandboxInitPoint);
+    }
+
     private sealed class FakeGiftRepository(Gift gift) : IGiftRepository
     {
         public Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult(gift.Id == id ? gift : null);

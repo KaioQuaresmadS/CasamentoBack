@@ -22,3 +22,15 @@ C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoA
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\refint\CasamentoAnaKaio.Contracts.dll
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.pdb
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\ref\CasamentoAnaKaio.Contracts.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\bin\Debug\net10.0\CasamentoAnaKaio.Contracts.deps.json
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\bin\Debug\net10.0\CasamentoAnaKaio.Contracts.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\bin\Debug\net10.0\CasamentoAnaKaio.Contracts.pdb
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.AssemblyInfoInputs.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.AssemblyInfo.cs
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.csproj.CoreCompileInputs.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.sourcelink.json
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\refint\CasamentoAnaKaio.Contracts.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\CasamentoAnaKaio.Contracts.pdb
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Contracts\obj\Debug\net10.0\ref\CasamentoAnaKaio.Contracts.dll

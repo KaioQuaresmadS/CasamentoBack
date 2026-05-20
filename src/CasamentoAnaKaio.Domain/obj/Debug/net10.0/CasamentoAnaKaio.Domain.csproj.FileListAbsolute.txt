@@ -22,3 +22,15 @@ C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoA
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\refint\CasamentoAnaKaio.Domain.dll
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.pdb
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\ref\CasamentoAnaKaio.Domain.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\bin\Debug\net10.0\CasamentoAnaKaio.Domain.deps.json
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\bin\Debug\net10.0\CasamentoAnaKaio.Domain.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\bin\Debug\net10.0\CasamentoAnaKaio.Domain.pdb
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.AssemblyInfoInputs.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.AssemblyInfo.cs
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.csproj.CoreCompileInputs.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.sourcelink.json
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\refint\CasamentoAnaKaio.Domain.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\CasamentoAnaKaio.Domain.pdb
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Domain\obj\Debug\net10.0\ref\CasamentoAnaKaio.Domain.dll

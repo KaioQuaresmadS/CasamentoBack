@@ -38,3 +38,9 @@ C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoA
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\refint\CasamentoAnaKaio.Infrastructure.dll
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.pdb
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\d80b52126479bb5f\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\ref\CasamentoAnaKaio.Infrastructure.dll
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.csproj.AssemblyReference.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.AssemblyInfoInputs.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.AssemblyInfo.cs
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Codigos\CasamentoBack\src\CasamentoAnaKaio.Infrastructure\obj\Debug\net10.0\CasamentoAnaKaio.Infrastructure.sourcelink.json

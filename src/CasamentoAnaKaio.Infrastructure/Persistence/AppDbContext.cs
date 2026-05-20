@@ -5,6 +5,8 @@ namespace CasamentoAnaKaio.Infrastructure.Persistence;
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
     public DbSet<GuestConfirmation> GuestConfirmations => Set<GuestConfirmation>();
     public DbSet<Gift> Gifts => Set<Gift>();
     public DbSet<GiftContribution> GiftContributions => Set<GiftContribution>();

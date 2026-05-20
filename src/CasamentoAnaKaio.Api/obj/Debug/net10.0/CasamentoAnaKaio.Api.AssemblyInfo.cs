@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CasamentoAnaKaio.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94723a950a78ec7ebf840568b5f36e7ddfbfc020")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b97d17349b85b6681f6f3906d21527e3c1ff6adb")]
 [assembly: System.Reflection.AssemblyProductAttribute("CasamentoAnaKaio.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CasamentoAnaKaio.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

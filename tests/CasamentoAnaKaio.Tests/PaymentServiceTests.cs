@@ -84,7 +84,7 @@ public sealed class PaymentServiceTests
     {
         public MercadoPagoPreferenceRequest? LastRequest { get; private set; }
 
-        public Task<MercadoPagoPreferenceResult> CreatePreferenceAsync(
+        public Task<MercadoPagoPreferenceResult> CreateCheckoutPreferenceAsync(
             MercadoPagoPreferenceRequest request,
             string idempotencyKey,
             CancellationToken cancellationToken)

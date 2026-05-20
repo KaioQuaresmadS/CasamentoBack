@@ -171,7 +171,7 @@ public sealed class PaymentWebhookServiceTests
 
     private sealed class FakeMercadoPagoPaymentClient(MercadoPagoPaymentDetails paymentDetails) : IMercadoPagoPaymentClient
     {
-        public Task<MercadoPagoPreferenceResult> CreatePreferenceAsync(
+        public Task<MercadoPagoPreferenceResult> CreateCheckoutPreferenceAsync(
             MercadoPagoPreferenceRequest request,
             string idempotencyKey,
             CancellationToken cancellationToken)

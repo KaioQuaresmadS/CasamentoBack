@@ -1,45 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj": {}
+    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj": {}
   },
   "projects": {
-    "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj": {
+    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
+        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj",
         "projectName": "CasamentoAnaKaio.Api",
-        "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
-        "packagesPath": "C:\\Users\\Kaio Quaresma\\.nuget\\packages\\",
-        "outputPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Api\\obj\\",
+        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Kaio Quaresma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj"
               },
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj"
               },
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj"
               }
             }
           }
@@ -54,7 +48,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -90,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -508,39 +502,33 @@
         }
       }
     },
-    "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
+    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
+        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj",
         "projectName": "CasamentoAnaKaio.Application",
-        "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
-        "packagesPath": "C:\\Users\\Kaio Quaresma\\.nuget\\packages\\",
-        "outputPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\obj\\",
+        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Kaio Quaresma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj"
               },
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj"
               }
             }
           }
@@ -555,7 +543,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -569,9 +557,13 @@
               "target": "Package",
               "version": "[11.10.0, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.2, )"
             }
           },
           "imports": [
@@ -590,7 +582,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -868,28 +860,22 @@
         }
       }
     },
-    "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj": {
+    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj",
+        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj",
         "projectName": "CasamentoAnaKaio.Contracts",
-        "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj",
-        "packagesPath": "C:\\Users\\Kaio Quaresma\\.nuget\\packages\\",
-        "outputPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Contracts\\obj\\",
+        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Kaio Quaresma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -908,7 +894,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -929,7 +915,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1207,28 +1193,22 @@
         }
       }
     },
-    "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
+    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj",
+        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj",
         "projectName": "CasamentoAnaKaio.Domain",
-        "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj",
-        "packagesPath": "C:\\Users\\Kaio Quaresma\\.nuget\\packages\\",
-        "outputPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\obj\\",
+        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Kaio Quaresma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -1247,7 +1227,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -1268,7 +1248,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1546,39 +1526,33 @@
         }
       }
     },
-    "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj": {
+    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
+        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj",
         "projectName": "CasamentoAnaKaio.Infrastructure",
-        "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Kaio Quaresma\\.nuget\\packages\\",
-        "outputPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Infrastructure\\obj\\",
+        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Kaio Quaresma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj"
               },
-              "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
-                "projectPath": "D:\\Codigos\\CasamentoBack\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj"
+              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
+                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj"
               }
             }
           }
@@ -1593,7 +1567,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -1602,6 +1576,18 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[10.0.0, )"
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "mercadopago-sdk": {
+              "target": "Package",
+              "version": "[2.5.0, )"
             }
           },
           "imports": [
@@ -1620,7 +1606,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

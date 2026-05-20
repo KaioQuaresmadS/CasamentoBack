@@ -8,6 +8,7 @@ public sealed class MercadoPagoOptions
     public string Environment { get; set; } = "sandbox";
     public string FrontendUrl { get; set; } = "http://localhost:4200";
     public string BackendUrl { get; set; } = "http://localhost:5278";
+    public string ExternalPosId { get; set; } = string.Empty;
 
     public bool IsSandbox => Environment.Equals("sandbox", StringComparison.OrdinalIgnoreCase);
 }

@@ -68,8 +68,9 @@ public sealed class AuthenticationController(
 
     private bool IsDevelopmentAdmin(LoginRequest request)
     {
-        const string adminEmail = "kaio.ana";
-        var adminPassword = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD");
+        var adminEmail = configuration["AdminSeed:Email"] ?? "kaio.ana";
+        var adminPassword = configuration["AdminSeed:Password"]
+            ?? Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD");
 
         return request.Email.Equals(adminEmail, StringComparison.OrdinalIgnoreCase)
             && !string.IsNullOrWhiteSpace(adminPassword)
@@ -78,7 +79,7 @@ public sealed class AuthenticationController(
 
     private LoginResponse CreateDevelopmentAdminResponse()
     {
-        const string adminEmail = "kaio.ana";
+        var adminEmail = configuration["AdminSeed:Email"] ?? "kaio.ana";
         var adminName = configuration["AdminSeed:Name"] ?? "Admin Casamento Ana e Kaio";
         var userId = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
         var roles = new[] { "Admin" };

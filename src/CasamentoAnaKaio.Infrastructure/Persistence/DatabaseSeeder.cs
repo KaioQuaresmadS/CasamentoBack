@@ -18,9 +18,10 @@ public static class DatabaseSeeder
         var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
         var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("DatabaseSeeder");
 
-        const string adminEmail = "kaio.ana";
+        var adminEmail = configuration["AdminSeed:Email"] ?? "kaio.ana";
         var adminName = configuration["AdminSeed:Name"] ?? "Admin Casamento Ana e Kaio";
-        var adminPassword = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD");
+        var adminPassword = configuration["AdminSeed:Password"]
+            ?? Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD");
 
         await EnsureRoleAsync(context, "Admin", RoleType.Admin, "Acesso administrativo completo.", cancellationToken);
         await EnsureRoleAsync(context, "User", RoleType.User, "Usuario autenticado.", cancellationToken);
@@ -34,7 +35,7 @@ public static class DatabaseSeeder
         {
             if (string.IsNullOrWhiteSpace(adminPassword))
             {
-                logger.LogWarning("Admin seed skipped because ADMIN_SEED_PASSWORD was not configured.");
+                logger.LogWarning("Admin seed skipped because AdminSeed:Password was not configured.");
                 return;
             }
 

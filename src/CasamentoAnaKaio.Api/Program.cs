@@ -1,9 +1,18 @@
+using System.Text;
 using CasamentoAnaKaio.Application.Services;
+using CasamentoAnaKaio.Application.Validators;
+using CasamentoAnaKaio.Contracts.Authentication;
+using CasamentoAnaKaio.Contracts.GiftContributions;
+using CasamentoAnaKaio.Contracts.Gifts;
+using CasamentoAnaKaio.Contracts.GuestConfirmations;
 using CasamentoAnaKaio.Infrastructure;
 using CasamentoAnaKaio.Infrastructure.Persistence;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +27,34 @@ builder.Services.AddScoped<GiftService>();
 builder.Services.AddScoped<GiftContributionService>();
 builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<PaymentWebhookService>();
+builder.Services.AddScoped<IValidator<CreateGuestConfirmationRequest>, CreateGuestConfirmationRequestValidator>();
+builder.Services.AddScoped<IValidator<CreateGiftContributionRequest>, CreateGiftContributionRequestValidator>();
+builder.Services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
+builder.Services.AddScoped<IValidator<CreateGiftRequest>, CreateGiftRequestValidator>();
+builder.Services.AddScoped<IValidator<UpdateGiftRequest>, UpdateGiftRequestValidator>();
+
+var jwtSecret = builder.Configuration["Jwt:Secret"] ?? string.Empty;
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "CasamentoAnaKaio";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "CasamentoAnaKaioClient";
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {
@@ -55,7 +92,7 @@ app.UseExceptionHandler(errorApp =>
         var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
         var exception = exceptionFeature?.Error;
 
-        context.Response.StatusCode = exception is ArgumentException or ArgumentOutOfRangeException
+        context.Response.StatusCode = exception is ValidationException or ArgumentException or ArgumentOutOfRangeException
             ? StatusCodes.Status400BadRequest
             : StatusCodes.Status500InternalServerError;
 
@@ -68,6 +105,15 @@ app.UseExceptionHandler(errorApp =>
             Detail = exception?.Message
         };
 
+        if (exception is ValidationException validationException)
+        {
+            problem.Extensions["errors"] = validationException.Errors
+                .GroupBy(error => error.PropertyName)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Select(error => error.ErrorMessage).ToArray());
+        }
+
         await context.Response.WriteAsJsonAsync(problem);
     });
 });
@@ -79,6 +125,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseCors(FrontendCorsPolicy);
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
@@ -94,6 +142,7 @@ _ = Task.Run(async () =>
 
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await dbContext.Database.MigrateAsync();
+        await DatabaseSeeder.SeedDefaultAdminAsync(app.Services);
 
         logger.LogInformation("Database migrations applied.");
     }

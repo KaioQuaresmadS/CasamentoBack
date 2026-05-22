@@ -20,4 +20,15 @@ public sealed class GiftRepository(AppDbContext dbContext) : IGiftRepository
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task AddAsync(Gift gift, CancellationToken cancellationToken)
+    {
+        await dbContext.Gifts.AddAsync(gift, cancellationToken);
+    }
+
+    public Task UpdateAsync(Gift gift, CancellationToken cancellationToken)
+    {
+        dbContext.Gifts.Update(gift);
+        return Task.CompletedTask;
+    }
 }

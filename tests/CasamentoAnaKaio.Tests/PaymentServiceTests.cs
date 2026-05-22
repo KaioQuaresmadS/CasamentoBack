@@ -84,6 +84,8 @@ public sealed class PaymentServiceTests
     {
         public Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult(gift.Id == id ? gift : null);
         public Task<IReadOnlyList<Gift>> ListActiveAsync(CancellationToken cancellationToken) => Task.FromResult<IReadOnlyList<Gift>>(new[] { gift });
+        public Task AddAsync(Gift gift, CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task UpdateAsync(Gift gift, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     private sealed class FakeGiftContributionRepository : IGiftContributionRepository

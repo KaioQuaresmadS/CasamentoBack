@@ -1,4 +1,6 @@
 using CasamentoAnaKaio.Application.Abstractions;
+using CasamentoAnaKaio.Application.Security;
+using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Infrastructure.Options;
 using CasamentoAnaKaio.Infrastructure.Payments;
 using CasamentoAnaKaio.Infrastructure.Persistence;
@@ -22,7 +24,28 @@ public static class DependencyInjection
         services.AddScoped<IGiftRepository, GiftRepository>();
         services.AddScoped<IGiftContributionRepository, GiftContributionRepository>();
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<PasswordHasher>();
+
+        var jwtOptions = new JwtOptions
+        {
+            Secret = configuration["Jwt:Secret"] ?? string.Empty,
+            Issuer = configuration["Jwt:Issuer"] ?? "CasamentoAnaKaio",
+            Audience = configuration["Jwt:Audience"] ?? "CasamentoAnaKaioClient",
+            AccessTokenExpirationMinutes = int.TryParse(configuration["Jwt:AccessTokenExpirationMinutes"], out var minutes)
+                ? minutes
+                : 15
+        };
+
+        services.AddSingleton(jwtOptions);
+        services.AddSingleton<ITokenService>(_ => new JwtTokenGenerator(
+            jwtOptions.Secret,
+            jwtOptions.Issuer,
+            jwtOptions.Audience,
+            jwtOptions.AccessTokenExpirationMinutes));
 
         var mercadoPagoOptions = new MercadoPagoOptions
         {

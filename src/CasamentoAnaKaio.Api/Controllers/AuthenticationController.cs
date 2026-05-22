@@ -68,16 +68,17 @@ public sealed class AuthenticationController(
 
     private bool IsDevelopmentAdmin(LoginRequest request)
     {
-        var adminEmail = configuration["AdminSeed:Email"] ?? "admin@casamento.local";
-        var adminPassword = configuration["AdminSeed:Password"] ?? "Admin@123456";
+        const string adminEmail = "kaio.ana";
+        var adminPassword = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD");
 
         return request.Email.Equals(adminEmail, StringComparison.OrdinalIgnoreCase)
+            && !string.IsNullOrWhiteSpace(adminPassword)
             && request.Password == adminPassword;
     }
 
     private LoginResponse CreateDevelopmentAdminResponse()
     {
-        var adminEmail = configuration["AdminSeed:Email"] ?? "admin@casamento.local";
+        const string adminEmail = "kaio.ana";
         var adminName = configuration["AdminSeed:Name"] ?? "Admin Casamento Ana e Kaio";
         var userId = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
         var roles = new[] { "Admin" };

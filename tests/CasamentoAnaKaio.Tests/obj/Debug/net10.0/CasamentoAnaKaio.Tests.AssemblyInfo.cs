@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CasamentoAnaKaio.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a966d0dc3178a54ee97b962afa8000f21451314")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4061bd0c69baf36c2f6823a0f852fee13c33265b")]
 [assembly: System.Reflection.AssemblyProductAttribute("CasamentoAnaKaio.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CasamentoAnaKaio.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CasamentoAnaKaio.Application.Abstractions;
@@ -28,10 +29,22 @@ public sealed class MercadoPagoPaymentClient(
         using var httpRequest = new HttpRequestMessage(HttpMethod.Post, "checkout/preferences");
         httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.AccessToken);
         httpRequest.Headers.TryAddWithoutValidation("X-Idempotency-Key", idempotencyKey);
-        httpRequest.Content = JsonContent.Create(BuildPreferenceBody(request), options: JsonOptions);
+
+        var requestBody = BuildPreferenceBody(request);
+        var requestJson = JsonSerializer.Serialize(requestBody, JsonOptions);
+
+        Log.Information(
+            "Mercado Pago Checkout Pro preference request. Endpoint={Endpoint}, ExternalReference={ExternalReference}, RequestJson={RequestJson}",
+            "POST /checkout/preferences",
+            request.ExternalReference,
+            requestJson);
+
+        httpRequest.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
         using var response = await httpClient.SendAsync(httpRequest, cancellationToken);
         var payload = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        LogPreferenceResponse(response, payload, request.ExternalReference);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -125,13 +138,6 @@ public sealed class MercadoPagoPaymentClient(
                 success = $"{frontendUrl}/pagamento/sucesso",
                 pending = $"{frontendUrl}/pagamento/pendente",
                 failure = $"{frontendUrl}/pagamento/falha"
-            },
-            auto_return = "approved",
-            statement_descriptor = "ANA E KAIO",
-            metadata = new
-            {
-                origin = "casamento_ana_kaio",
-                payment_method = request.PaymentMethod
             }
         };
     }
@@ -198,6 +204,53 @@ public sealed class MercadoPagoPaymentClient(
     private static string ReadString(JsonElement element, string propertyName)
     {
         return ReadOptionalString(element, propertyName) ?? string.Empty;
+    }
+
+    private static void LogPreferenceResponse(
+        HttpResponseMessage response,
+        string payload,
+        string externalReference)
+    {
+        string? preferenceId = null;
+        string? initPoint = null;
+        string? sandboxInitPoint = null;
+        string? collectorId = null;
+        string? clientId = null;
+        string? applicationId = null;
+
+        try
+        {
+            using var document = JsonDocument.Parse(payload);
+            var root = document.RootElement;
+
+            preferenceId = ReadOptionalString(root, "id");
+            initPoint = ReadOptionalString(root, "init_point");
+            sandboxInitPoint = ReadOptionalString(root, "sandbox_init_point");
+            collectorId = ReadOptionalString(root, "collector_id");
+            clientId = ReadOptionalString(root, "client_id");
+            applicationId = ReadOptionalString(root, "application_id");
+        }
+        catch (JsonException)
+        {
+            Log.Warning(
+                "Mercado Pago Checkout Pro preference response is not valid JSON. StatusCode={StatusCode}, ExternalReference={ExternalReference}, ResponseBody={ResponseBody}",
+                (int)response.StatusCode,
+                externalReference,
+                payload);
+            return;
+        }
+
+        Log.Information(
+            "Mercado Pago Checkout Pro preference response. StatusCode={StatusCode}, ExternalReference={ExternalReference}, ResponseBody={ResponseBody}, PreferenceId={PreferenceId}, InitPoint={InitPoint}, SandboxInitPoint={SandboxInitPoint}, CollectorId={CollectorId}, ClientId={ClientId}, ApplicationId={ApplicationId}",
+            (int)response.StatusCode,
+            externalReference,
+            payload,
+            preferenceId,
+            initPoint,
+            sandboxInitPoint,
+            collectorId,
+            clientId,
+            applicationId);
     }
 
     private static string? ReadOptionalString(JsonElement element, string propertyName)

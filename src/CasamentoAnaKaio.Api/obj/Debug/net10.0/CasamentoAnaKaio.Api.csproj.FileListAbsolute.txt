@@ -523,3 +523,14 @@ C:/Users/kaio.souza/Desktop/Códigos/Template/template-backend/src/CasamentoAnaK
 /workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/obj/Debug/net10.0/CasamentoAnaKaio.Api.pdb
 /workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/obj/Debug/net10.0/CasamentoAnaKaio.Api.genruntimeconfig.cache
 /workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/obj/Debug/net10.0/ref/CasamentoAnaKaio.Api.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/ClosedXML.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/ClosedXML.Parser.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/DocumentFormat.OpenXml.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/DocumentFormat.OpenXml.Framework.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/ExcelNumberFormat.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/Microsoft.IdentityModel.Protocols.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/RBush.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/SixLabors.Fonts.dll
+/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/bin/Debug/net10.0/System.IO.Packaging.dll

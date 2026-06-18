@@ -138,6 +138,12 @@ public sealed class MercadoPagoPaymentClient(
                 success = $"{frontendUrl}/pagamento/sucesso",
                 pending = $"{frontendUrl}/pagamento/pendente",
                 failure = $"{frontendUrl}/pagamento/falha"
+            },
+            payment_methods = new
+            {
+                excluded_payment_methods = Array.Empty<object>(),
+                excluded_payment_types = Array.Empty<object>(),
+                installments = 12
             }
         };
     }

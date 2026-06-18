@@ -7,6 +7,11 @@ public interface IMercadoPagoPaymentClient
         string idempotencyKey,
         CancellationToken cancellationToken);
 
+    Task<MercadoPagoPaymentDetails> CreatePixPaymentAsync(
+        MercadoPagoPixPaymentRequest request,
+        string idempotencyKey,
+        CancellationToken cancellationToken);
+
     Task<MercadoPagoPaymentDetails> GetPaymentAsync(
         string mercadoPagoPaymentId,
         CancellationToken cancellationToken);
@@ -24,6 +29,13 @@ public sealed record MercadoPagoPreferenceResult(
     string Id,
     string InitPoint,
     string SandboxInitPoint);
+
+public sealed record MercadoPagoPixPaymentRequest(
+    string Description,
+    decimal Amount,
+    string PayerName,
+    string PayerEmail,
+    string ExternalReference);
 
 public sealed record MercadoPagoPaymentDetails(
     string Id,

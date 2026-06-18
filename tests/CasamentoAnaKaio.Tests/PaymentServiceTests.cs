@@ -80,6 +80,39 @@ public sealed class PaymentServiceTests
         Assert.Equal("https://mp.example/sandbox", response.SandboxInitPoint);
     }
 
+    [Fact]
+    public async Task CreatePixAsync_CreatesDirectPixPayment()
+    {
+        var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
+        var contributionRepository = new FakeGiftContributionRepository();
+        var paymentRepository = new FakePaymentRepository();
+        var client = new FakeMercadoPagoPaymentClient();
+        var unitOfWork = new FakeUnitOfWork();
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            contributionRepository,
+            paymentRepository,
+            client,
+            unitOfWork);
+
+        var response = await service.CreatePixAsync(
+            new CreatePixPaymentRequest(gift.Id, "Maria Silva", "maria@example.com", 61m),
+            CancellationToken.None);
+
+        Assert.Equal("mp-pix-123", response.PaymentId);
+        Assert.Equal("pending", response.Status);
+        Assert.Equal("qr-code", response.QrCode);
+        Assert.Equal("qr-code-base64", response.QrCodeBase64);
+        Assert.Equal("https://mp.example/ticket", response.TicketUrl);
+        Assert.StartsWith("pix-", response.ExternalReference);
+        Assert.Single(contributionRepository.Contributions);
+        Assert.Single(paymentRepository.Payments);
+        Assert.Equal(61m, paymentRepository.Payments[0].Amount);
+        Assert.Equal("Pix", paymentRepository.Payments[0].PaymentMethod);
+        Assert.Equal("mp-pix-123", paymentRepository.Payments[0].MercadoPagoPaymentId);
+        Assert.Equal(1, unitOfWork.SaveChangesCount);
+    }
+
     private sealed class FakeGiftRepository(Gift gift) : IGiftRepository
     {
         public Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult(gift.Id == id ? gift : null);
@@ -137,6 +170,22 @@ public sealed class PaymentServiceTests
         {
             LastRequest = request;
             return Task.FromResult(PreferenceResult);
+        }
+
+        public Task<MercadoPagoPaymentDetails> CreatePixPaymentAsync(
+            MercadoPagoPixPaymentRequest request,
+            string idempotencyKey,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new MercadoPagoPaymentDetails(
+                "mp-pix-123",
+                "pending",
+                request.ExternalReference,
+                "pix",
+                "bank_transfer",
+                "qr-code",
+                "qr-code-base64",
+                "https://mp.example/ticket"));
         }
 
         public Task<MercadoPagoPaymentDetails> GetPaymentAsync(string paymentId, CancellationToken cancellationToken)

@@ -253,18 +253,20 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
 
                     b.Property<string>("PixCopyPaste")
                         .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("character varying(4000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PixQrCode")
                         .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("character varying(4000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PreferenceId")
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
+
+                    b.Property<string>("QrCodeBase64")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("SandboxInitPoint")
                         .IsRequired()
@@ -275,6 +277,11 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("character varying(40)");
+
+                    b.Property<string>("TicketUrl")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

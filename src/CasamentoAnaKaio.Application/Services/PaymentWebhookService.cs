@@ -2,6 +2,7 @@ using System.Text.Json;
 using CasamentoAnaKaio.Application.Abstractions;
 using CasamentoAnaKaio.Domain.Entities;
 using CasamentoAnaKaio.Domain.Enums;
+using Serilog;
 
 namespace CasamentoAnaKaio.Application.Services;
 
@@ -20,6 +21,11 @@ public sealed class PaymentWebhookService(
         CancellationToken cancellationToken)
     {
         var providerPaymentId = ExtractPaymentId(payload, query);
+        Log.Information(
+            "Webhook Mercado Pago recebido. ProviderPaymentId={ProviderPaymentId}, RequestId={RequestId}",
+            providerPaymentId,
+            requestId);
+
         if (string.IsNullOrWhiteSpace(providerPaymentId))
         {
             return false;
@@ -27,6 +33,10 @@ public sealed class PaymentWebhookService(
 
         if (!webhookValidator.ValidateSignature(providerPaymentId, requestId, signature))
         {
+            Log.Warning(
+                "Webhook Mercado Pago recusado por assinatura invalida. ProviderPaymentId={ProviderPaymentId}, RequestId={RequestId}",
+                providerPaymentId,
+                requestId);
             return false;
         }
 
@@ -35,11 +45,18 @@ public sealed class PaymentWebhookService(
         var payment = await FindPaymentAsync(mercadoPagoPayment, cancellationToken);
         if (payment is null)
         {
+            Log.Warning(
+                "Webhook Mercado Pago sem pagamento local correspondente. ProviderPaymentId={ProviderPaymentId}, ExternalReference={ExternalReference}",
+                mercadoPagoPayment.Id,
+                mercadoPagoPayment.ExternalReference);
             return true;
         }
 
         payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
-        payment.SetPixData(mercadoPagoPayment.QrCodeBase64, mercadoPagoPayment.QrCode);
+        payment.SetPixData(
+            mercadoPagoPayment.QrCode,
+            mercadoPagoPayment.QrCodeBase64,
+            mercadoPagoPayment.TicketUrl);
         payment.SetStatus(status);
 
         var contribution = await contributionRepository.GetByIdAsync(payment.GiftContributionId, cancellationToken);
@@ -50,6 +67,7 @@ public sealed class PaymentWebhookService(
         }
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+        LogPaymentStatus(mercadoPagoPayment.Id, status, payment.ExternalReference);
         return true;
     }
 
@@ -107,6 +125,30 @@ public sealed class PaymentWebhookService(
             case PaymentStatus.Expired:
                 contribution.MarkAsExpired();
                 break;
+        }
+    }
+
+    private static void LogPaymentStatus(
+        string mercadoPagoPaymentId,
+        PaymentStatus status,
+        string externalReference)
+    {
+        if (status == PaymentStatus.Paid)
+        {
+            Log.Information(
+                "Pagamento Mercado Pago aprovado. PaymentId={PaymentId}, ExternalReference={ExternalReference}",
+                mercadoPagoPaymentId,
+                externalReference);
+            return;
+        }
+
+        if (status is PaymentStatus.Failed or PaymentStatus.Cancelled or PaymentStatus.Expired)
+        {
+            Log.Warning(
+                "Pagamento Mercado Pago recusado ou cancelado. PaymentId={PaymentId}, Status={Status}, ExternalReference={ExternalReference}",
+                mercadoPagoPaymentId,
+                status,
+                externalReference);
         }
     }
 

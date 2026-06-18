@@ -346,3 +346,12 @@ C:/Users/CodexSandboxOffline/.codex/.sandbox/cwd/d80b52126479bb5f/tests/Casament
 /workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/obj/Debug/net10.0/Casament.EB605BB1.Up2Date
 /workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/obj/Debug/net10.0/CasamentoAnaKaio.Tests.genruntimeconfig.cache
 /workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/obj/Debug/net10.0/ref/CasamentoAnaKaio.Tests.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/ClosedXML.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/ClosedXML.Parser.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/DocumentFormat.OpenXml.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/DocumentFormat.OpenXml.Framework.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/ExcelNumberFormat.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/RBush.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/Serilog.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/SixLabors.Fonts.dll
+/workspaces/CasamentoBack/tests/CasamentoAnaKaio.Tests/bin/Debug/net10.0/System.IO.Packaging.dll

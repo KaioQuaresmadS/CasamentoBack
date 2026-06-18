@@ -174,6 +174,14 @@ public sealed class PaymentWebhookServiceTests
             return Task.FromResult(new MercadoPagoPreferenceResult("pref-123", "https://mp.example/init", "https://mp.example/sandbox"));
         }
 
+        public Task<MercadoPagoPaymentDetails> CreatePixPaymentAsync(
+            MercadoPagoPixPaymentRequest request,
+            string idempotencyKey,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(paymentDetails);
+        }
+
         public Task<MercadoPagoPaymentDetails> GetPaymentAsync(string paymentId, CancellationToken cancellationToken)
         {
             return Task.FromResult(paymentDetails);

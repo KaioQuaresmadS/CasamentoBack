@@ -41,6 +41,8 @@ public class Payment
     public string Status { get; private set; } = PaymentStatus.Pending.ToString();
     public string PixQrCode { get; private set; } = string.Empty;
     public string PixCopyPaste { get; private set; } = string.Empty;
+    public string QrCodeBase64 { get; private set; } = string.Empty;
+    public string TicketUrl { get; private set; } = string.Empty;
     public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; private set; } = DateTimeOffset.UtcNow;
 
@@ -61,10 +63,12 @@ public class Payment
         }
     }
 
-    public void SetPixData(string? qrCode, string? copyPaste)
+    public void SetPixData(string? qrCode, string? qrCodeBase64, string? ticketUrl)
     {
         PixQrCode = qrCode ?? string.Empty;
-        PixCopyPaste = copyPaste ?? string.Empty;
+        PixCopyPaste = qrCode ?? string.Empty;
+        QrCodeBase64 = qrCodeBase64 ?? string.Empty;
+        TicketUrl = ticketUrl ?? string.Empty;
         Touch();
     }
 

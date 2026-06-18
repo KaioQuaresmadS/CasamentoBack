@@ -1,7 +1,9 @@
+using System.Net.Mail;
 using CasamentoAnaKaio.Application.Abstractions;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
 using CasamentoAnaKaio.Domain.Enums;
+using Serilog;
 
 namespace CasamentoAnaKaio.Application.Services;
 
@@ -68,6 +70,96 @@ public sealed class PaymentService(
         return MapCreated(payment, contribution);
     }
 
+    public async Task<CreatePixPaymentResponse> CreatePixAsync(
+        CreatePixPaymentRequest request,
+        CancellationToken cancellationToken)
+    {
+        ValidatePixRequest(request);
+
+        var gift = await giftRepository.GetByIdAsync(request.GiftId, cancellationToken)
+            ?? throw new ArgumentException("Presente nao encontrado.", nameof(request.GiftId));
+
+        var payerName = request.PayerName.Trim();
+        var payerEmail = request.PayerEmail.Trim();
+        var externalReference = $"pix-{Guid.NewGuid():N}";
+        var description = $"Presente Ana e Kaio - {gift.Name}";
+
+        var contribution = new GiftContribution(
+            gift,
+            payerName,
+            "nao-informado",
+            GiftContributionMode.FullGift,
+            0,
+            "mercado-pago-pix",
+            string.Empty,
+            string.Empty);
+
+        var payment = new Payment(
+            contribution.Id,
+            request.Amount,
+            "Pix",
+            payerName,
+            payerEmail,
+            externalReference);
+
+        Log.Information(
+            "Criando pagamento Pix Mercado Pago. GiftId={GiftId}, Amount={Amount}, ExternalReference={ExternalReference}",
+            request.GiftId,
+            request.Amount,
+            externalReference);
+
+        MercadoPagoPaymentDetails mercadoPagoPayment;
+        try
+        {
+            mercadoPagoPayment = await mercadoPagoClient.CreatePixPaymentAsync(
+                new MercadoPagoPixPaymentRequest(
+                    description,
+                    request.Amount,
+                    payerName,
+                    payerEmail,
+                    externalReference),
+                Guid.NewGuid().ToString("N"),
+                cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(
+                exception,
+                "Erro na API Mercado Pago ao criar Pix. GiftId={GiftId}, Amount={Amount}, ExternalReference={ExternalReference}",
+                request.GiftId,
+                request.Amount,
+                externalReference);
+            throw;
+        }
+
+        var status = MapMercadoPagoStatus(mercadoPagoPayment.Status);
+        payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
+        payment.SetPixData(
+            mercadoPagoPayment.QrCode,
+            mercadoPagoPayment.QrCodeBase64,
+            mercadoPagoPayment.TicketUrl);
+        payment.SetStatus(status);
+        contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+
+        await contributionRepository.AddAsync(contribution, cancellationToken);
+        await paymentRepository.AddAsync(payment, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        Log.Information(
+            "Pagamento Pix Mercado Pago criado. PaymentId={PaymentId}, Status={Status}, ExternalReference={ExternalReference}",
+            mercadoPagoPayment.Id,
+            mercadoPagoPayment.Status,
+            externalReference);
+
+        return new CreatePixPaymentResponse(
+            mercadoPagoPayment.Id,
+            NormalizeMercadoPagoStatusForResponse(mercadoPagoPayment.Status),
+            mercadoPagoPayment.QrCode ?? string.Empty,
+            mercadoPagoPayment.QrCodeBase64 ?? string.Empty,
+            mercadoPagoPayment.TicketUrl ?? string.Empty,
+            externalReference);
+    }
+
     public async Task<PaymentStatusResponse?> GetStatusAsync(Guid id, CancellationToken cancellationToken)
     {
         var payment = await paymentRepository.GetByIdAsync(id, cancellationToken);
@@ -123,11 +215,45 @@ public sealed class PaymentService(
             null,
             null,
             string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
-            string.IsNullOrWhiteSpace(payment.PixQrCode) ? null : payment.PixQrCode,
+            string.IsNullOrWhiteSpace(payment.QrCodeBase64) ? null : payment.QrCodeBase64,
             string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
             payment.PreferenceId,
             string.IsNullOrWhiteSpace(payment.MercadoPagoPaymentId) ? null : payment.MercadoPagoPaymentId,
             payment.ExternalReference);
+    }
+
+    private static void ValidatePixRequest(CreatePixPaymentRequest request)
+    {
+        if (request.GiftId == Guid.Empty)
+        {
+            throw new ArgumentException("giftId e obrigatorio.", nameof(request.GiftId));
+        }
+
+        if (request.Amount <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(request.Amount), "amount deve ser maior que zero.");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.PayerEmail))
+        {
+            throw new ArgumentException("payerEmail e obrigatorio.", nameof(request.PayerEmail));
+        }
+
+        try
+        {
+            _ = new MailAddress(request.PayerEmail.Trim());
+        }
+        catch (FormatException exception)
+        {
+            throw new ArgumentException("payerEmail invalido.", nameof(request.PayerEmail), exception);
+        }
+    }
+
+    private static string NormalizeMercadoPagoStatusForResponse(string status)
+    {
+        return string.IsNullOrWhiteSpace(status)
+            ? "pending"
+            : status.Trim().ToLowerInvariant();
     }
 
     private static void EnsureCheckoutPreferenceHasPaymentUrl(MercadoPagoPreferenceResult preference)

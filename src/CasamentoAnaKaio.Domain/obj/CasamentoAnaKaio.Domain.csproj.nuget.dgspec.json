@@ -10,11 +10,11 @@
         "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj",
         "projectName": "CasamentoAnaKaio.Domain",
         "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj",
-        "packagesPath": "/home/codespace/.nuget/packages/",
+        "packagesPath": "/tmp/.nuget/packages/",
         "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "/tmp/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"

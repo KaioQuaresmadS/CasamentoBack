@@ -20,6 +20,15 @@ public sealed class PaymentsController(
         return CreatedAtAction(nameof(GetStatus), new { id = response.Id }, response);
     }
 
+    [HttpPost("pix")]
+    public async Task<ActionResult<CreatePixPaymentResponse>> CreatePix(
+        CreatePixPaymentRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await paymentService.CreatePixAsync(request, cancellationToken);
+        return Ok(response);
+    }
+
     [HttpGet("{id:guid}/status")]
     public async Task<ActionResult<PaymentStatusResponse>> GetStatus(
         Guid id,
@@ -46,5 +55,15 @@ public sealed class PaymentsController(
         return processed
             ? Ok(new { message = "Webhook processado com sucesso." })
             : BadRequest(new { message = "Webhook Mercado Pago invalido ou sem payment id." });
+    }
+
+    [HttpPost("webhook")]
+    public Task<IActionResult> MercadoPagoWebhookAlias(
+        [FromHeader(Name = "x-signature")] string? signature,
+        [FromHeader(Name = "x-request-id")] string? requestId,
+        [FromBody] JsonElement payload,
+        CancellationToken cancellationToken)
+    {
+        return MercadoPagoWebhook(signature, requestId, payload, cancellationToken);
     }
 }

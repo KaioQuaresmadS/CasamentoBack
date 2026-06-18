@@ -39,6 +39,7 @@ public class Payment
     public string PayerName { get; private set; } = string.Empty;
     public string PayerEmail { get; private set; } = string.Empty;
     public string Status { get; private set; } = PaymentStatus.Pending.ToString();
+    public string QrCode { get; private set; } = string.Empty;
     public string PixQrCode { get; private set; } = string.Empty;
     public string PixCopyPaste { get; private set; } = string.Empty;
     public string QrCodeBase64 { get; private set; } = string.Empty;
@@ -65,6 +66,7 @@ public class Payment
 
     public void SetPixData(string? qrCode, string? qrCodeBase64, string? ticketUrl)
     {
+        QrCode = qrCode ?? string.Empty;
         PixQrCode = qrCode ?? string.Empty;
         PixCopyPaste = qrCode ?? string.Empty;
         QrCodeBase64 = qrCodeBase64 ?? string.Empty;

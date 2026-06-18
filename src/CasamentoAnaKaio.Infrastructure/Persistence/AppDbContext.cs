@@ -155,6 +155,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
             entity.Property(x => x.PayerName).HasMaxLength(160).IsRequired();
             entity.Property(x => x.PayerEmail).HasMaxLength(256).IsRequired();
             entity.Property(x => x.Status).HasMaxLength(40).IsRequired();
+            entity.Property(x => x.QrCode).HasColumnType("text").IsRequired();
             entity.Property(x => x.PixQrCode).HasColumnType("text").IsRequired();
             entity.Property(x => x.PixCopyPaste).HasColumnType("text").IsRequired();
             entity.Property(x => x.QrCodeBase64).HasColumnType("text").IsRequired();

@@ -264,6 +264,10 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
 
+                    b.Property<string>("QrCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("QrCodeBase64")
                         .IsRequired()
                         .HasColumnType("text");

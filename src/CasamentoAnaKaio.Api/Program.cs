@@ -85,6 +85,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+await ApplyDatabaseMigrationsAsync(app);
+
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
@@ -130,27 +132,34 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-_ = Task.Run(async () =>
+app.Logger.LogInformation("Application configured. Starting web host.");
+app.Run();
+
+static async Task ApplyDatabaseMigrationsAsync(WebApplication app)
 {
     var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("DatabaseMigration");
 
     try
     {
-        using var scope = scopeFactory.CreateScope();
-        logger.LogInformation("Applying database migrations in background.");
+        logger.LogInformation("Starting database migration application.");
 
+        using var scope = app.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var pendingMigrations = (await dbContext.Database.GetPendingMigrationsAsync()).ToArray();
+
+        logger.LogInformation(
+            "Pending database migrations found: Count={PendingMigrationCount}, Migrations={PendingMigrations}",
+            pendingMigrations.Length,
+            pendingMigrations);
+
         await dbContext.Database.MigrateAsync();
         await DatabaseSeeder.SeedDefaultAdminAsync(app.Services);
 
-        logger.LogInformation("Database migrations applied.");
+        logger.LogInformation("Database migrations applied successfully.");
     }
     catch (Exception exception)
     {
-        logger.LogError(exception, "Database migration failed.");
+        logger.LogError(exception, "Error applying database migrations.");
+        throw;
     }
-});
-
-app.Logger.LogInformation("Application configured. Starting web host.");
-app.Run();
+}

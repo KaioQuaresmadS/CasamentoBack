@@ -1,3 +1,5 @@
+using CasamentoAnaKaio.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -5,6 +7,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CasamentoAnaKaio.Infrastructure.Migrations
 {
     /// <inheritdoc />
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20260618120000_AddPixPaymentFields")]
     public partial class AddPixPaymentFields : Migration
     {
         /// <inheritdoc />
@@ -27,6 +31,13 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
                 oldClrType: typeof(string),
                 oldType: "character varying(4000)",
                 oldMaxLength: 4000);
+
+            migrationBuilder.AddColumn<string>(
+                name: "QrCode",
+                table: "Payments",
+                type: "text",
+                nullable: false,
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "QrCodeBase64",
@@ -53,6 +64,10 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
 
             migrationBuilder.DropColumn(
                 name: "TicketUrl",
+                table: "Payments");
+
+            migrationBuilder.DropColumn(
+                name: "QrCode",
                 table: "Payments");
 
             migrationBuilder.AlterColumn<string>(

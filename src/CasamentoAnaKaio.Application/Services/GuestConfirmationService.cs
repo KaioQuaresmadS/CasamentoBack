@@ -48,11 +48,12 @@ public sealed class GuestConfirmationService(
         worksheet.Cell(1, 1).Value = "Nome completo";
         worksheet.Cell(1, 2).Value = "Telefone";
         worksheet.Cell(1, 3).Value = "Nº de acompanhantes";
-        worksheet.Cell(1, 4).Value = "Vai comparecer";
-        worksheet.Cell(1, 5).Value = "Observações";
-        worksheet.Cell(1, 6).Value = "Data de confirmação";
+        worksheet.Cell(1, 4).Value = "Total por convite";
+        worksheet.Cell(1, 5).Value = "Vai comparecer";
+        worksheet.Cell(1, 6).Value = "Observações";
+        worksheet.Cell(1, 7).Value = "Data de confirmação";
 
-        var header = worksheet.Range(1, 1, 1, 6);
+        var header = worksheet.Range(1, 1, 1, 7);
         header.Style.Font.Bold = true;
         header.Style.Fill.BackgroundColor = XLColor.FromHtml("#EDEDED");
 
@@ -64,20 +65,21 @@ public sealed class GuestConfirmationService(
             worksheet.Cell(row, 1).Value = confirmation.FullName;
             worksheet.Cell(row, 2).Value = confirmation.Phone;
             worksheet.Cell(row, 3).Value = confirmation.GuestsCount;
-            worksheet.Cell(row, 4).Value = confirmation.WillAttend ? "Sim" : "Não";
-            worksheet.Cell(row, 5).Value = confirmation.Notes ?? string.Empty;
-            worksheet.Cell(row, 6).Value = confirmation.CreatedAt.LocalDateTime;
-            worksheet.Cell(row, 6).Style.DateFormat.Format = "dd/MM/yyyy HH:mm";
+            worksheet.Cell(row, 4).FormulaA1 = $"IF(E{row}=\"Sim\",1+C{row},0)";
+            worksheet.Cell(row, 5).Value = confirmation.WillAttend ? "Sim" : "Não";
+            worksheet.Cell(row, 6).Value = confirmation.Notes ?? string.Empty;
+            worksheet.Cell(row, 7).Value = confirmation.CreatedAt.LocalDateTime;
+            worksheet.Cell(row, 7).Style.DateFormat.Format = "dd/MM/yyyy HH:mm";
         }
 
         var totalRow = uniqueConfirmations.Count + 2;
         worksheet.Cell(totalRow, 1).Value = "Total de convidados confirmados";
-        worksheet.Range(totalRow, 1, totalRow, 2).Merge();
-        worksheet.Cell(totalRow, 3).FormulaA1 = uniqueConfirmations.Count == 0
+        worksheet.Range(totalRow, 1, totalRow, 3).Merge();
+        worksheet.Cell(totalRow, 4).FormulaA1 = uniqueConfirmations.Count == 0
             ? "0"
-            : $"SUMIF(D2:D{totalRow - 1},\"Sim\",C2:C{totalRow - 1})";
+            : $"SUM(D2:D{totalRow - 1})";
 
-        var totalRange = worksheet.Range(totalRow, 1, totalRow, 6);
+        var totalRange = worksheet.Range(totalRow, 1, totalRow, 7);
         totalRange.Style.Font.Bold = true;
         totalRange.Style.Fill.BackgroundColor = XLColor.FromHtml("#E2F0D9");
 

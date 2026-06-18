@@ -41,9 +41,10 @@ public sealed class GuestConfirmationServiceTests
 
         Assert.Equal("Francilene Alves Falcao Murta", worksheet.Cell(2, 1).GetString());
         Assert.Equal(3, worksheet.Cell(2, 3).GetValue<int>());
+        Assert.Equal("IF(E2=\"Sim\",1+C2,0)", worksheet.Cell(2, 4).FormulaA1);
         Assert.Equal("Hudson Vinicios de Souza da Cruz", worksheet.Cell(3, 1).GetString());
         Assert.Equal("Total de convidados confirmados", worksheet.Cell(4, 1).GetString());
-        Assert.Equal("SUMIF(D2:D3,\"Sim\",C2:C3)", worksheet.Cell(4, 3).FormulaA1);
+        Assert.Equal("SUM(D2:D3)", worksheet.Cell(4, 4).FormulaA1);
         Assert.True(worksheet.Cell(5, 1).IsEmpty());
     }
 

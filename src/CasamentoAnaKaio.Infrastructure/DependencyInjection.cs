@@ -108,8 +108,31 @@ public static class DependencyInjection
         var database = Uri.UnescapeDataString(uri.AbsolutePath.TrimStart('/'));
         var port = uri.IsDefaultPort ? 5432 : uri.Port;
 
+        var query = ParsePostgresUriQuery(uri.Query);
+        var sslMode = query.GetValueOrDefault("sslmode") ?? "Require";
+        var channelBinding = query.GetValueOrDefault("channel_binding");
+        var trustServerCertificate = string.Equals(channelBinding, "require", StringComparison.OrdinalIgnoreCase)
+            ? string.Empty
+            : ";Trust Server Certificate=true";
+        var channelBindingOption = string.IsNullOrWhiteSpace(channelBinding)
+            ? string.Empty
+            : $";Channel Binding={channelBinding}";
+
         return
-            $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+            $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode={sslMode}{channelBindingOption}{trustServerCertificate}";
+    }
+
+    private static Dictionary<string, string> ParsePostgresUriQuery(string query)
+    {
+        return query
+            .TrimStart('?')
+            .Split('&', StringSplitOptions.RemoveEmptyEntries)
+            .Select(parameter => parameter.Split('=', 2))
+            .Where(parts => parts.Length == 2 && !string.IsNullOrWhiteSpace(parts[0]))
+            .ToDictionary(
+                parts => Uri.UnescapeDataString(parts[0]),
+                parts => Uri.UnescapeDataString(parts[1]),
+                StringComparer.OrdinalIgnoreCase);
     }
 
     private static string? FirstNotBlank(params string?[] values)

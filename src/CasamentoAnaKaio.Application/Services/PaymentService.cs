@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using CasamentoAnaKaio.Application.Abstractions;
+using CasamentoAnaKaio.Application.Exceptions;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
 using CasamentoAnaKaio.Domain.Enums;
@@ -29,7 +30,7 @@ public sealed class PaymentService(
         var paymentMethod = NormalizePaymentMethod(request.PaymentMethod);
         if (paymentMethod == "credit_card")
         {
-            throw new InvalidOperationException("Pagamento por cartao esta temporariamente desativado. Use Pix ou boleto para concluir o presente sem abrir o aplicativo do Mercado Pago.");
+            throw new PaymentMethodUnavailableException("Pagamento por cartao esta temporariamente desativado para evitar abrir o aplicativo do Mercado Pago. Use Pix ou boleto para concluir o presente.");
         }
 
         if (paymentMethod == "boleto")

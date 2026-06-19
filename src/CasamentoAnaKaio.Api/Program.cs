@@ -1,4 +1,5 @@
 using System.Text;
+using CasamentoAnaKaio.Application.Exceptions;
 using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Application.Validators;
 using CasamentoAnaKaio.Contracts.Authentication;
@@ -94,16 +95,22 @@ app.UseExceptionHandler(errorApp =>
         var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
         var exception = exceptionFeature?.Error;
 
-        context.Response.StatusCode = exception is ValidationException or ArgumentException or ArgumentOutOfRangeException or InvalidOperationException
-            ? StatusCodes.Status400BadRequest
-            : StatusCodes.Status500InternalServerError;
+        context.Response.StatusCode = exception switch
+        {
+            PaymentMethodUnavailableException => StatusCodes.Status409Conflict,
+            ValidationException or ArgumentException or ArgumentOutOfRangeException or InvalidOperationException => StatusCodes.Status400BadRequest,
+            _ => StatusCodes.Status500InternalServerError
+        };
 
         var problem = new ProblemDetails
         {
             Status = context.Response.StatusCode,
-            Title = context.Response.StatusCode == StatusCodes.Status400BadRequest
-                ? "Requisicao invalida"
-                : "Erro inesperado",
+            Title = context.Response.StatusCode switch
+            {
+                StatusCodes.Status400BadRequest => "Requisicao invalida",
+                StatusCodes.Status409Conflict => "Metodo de pagamento indisponivel",
+                _ => "Erro inesperado"
+            },
             Detail = exception?.Message
         };
 

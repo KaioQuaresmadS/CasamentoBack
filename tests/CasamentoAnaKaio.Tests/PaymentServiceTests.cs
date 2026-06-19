@@ -1,4 +1,5 @@
 using CasamentoAnaKaio.Application.Abstractions;
+using CasamentoAnaKaio.Application.Exceptions;
 using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
@@ -208,7 +209,7 @@ public sealed class PaymentServiceTests
             client,
             new FakeUnitOfWork());
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(
+        var exception = await Assert.ThrowsAsync<PaymentMethodUnavailableException>(() => service.CreateAsync(
             new CreatePaymentRequest(gift.Id, "Ruan", "ruan@gmail.com", "11999999999", "FullGift", 0, "credit_card"),
             CancellationToken.None));
 

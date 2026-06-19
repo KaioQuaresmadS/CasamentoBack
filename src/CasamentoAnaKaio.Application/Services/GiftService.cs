@@ -1,6 +1,7 @@
 using CasamentoAnaKaio.Application.Abstractions;
 using CasamentoAnaKaio.Contracts.Gifts;
 using CasamentoAnaKaio.Domain.Entities;
+using CasamentoAnaKaio.Domain.Enums;
 using FluentValidation;
 
 namespace CasamentoAnaKaio.Application.Services;
@@ -82,12 +83,34 @@ public sealed class GiftService(
 
     private static GiftResponse Map(Gift gift)
     {
+        var paidAmount = gift.Contributions
+            .Where(x => x.PaymentStatus == PaymentStatus.Paid)
+            .Sum(x => x.Amount);
+        var paidReservedPercent = CalculateReservedPercent(gift.Price, paidAmount);
+        var reservedPercent = Math.Max(gift.ReservedPercent, paidReservedPercent);
+        var isPurchased = paidReservedPercent >= 100;
+
         return new GiftResponse(
             gift.Id,
             gift.Name,
             gift.Description,
             gift.ImageUrl,
             gift.Price,
-            gift.ReservedPercent);
+            reservedPercent,
+            paidAmount,
+            paidAmount,
+            isPurchased,
+            isPurchased ? "confirmed" : "pending");
+    }
+
+    private static int CalculateReservedPercent(decimal price, decimal paidAmount)
+    {
+        if (price <= 0 || paidAmount <= 0)
+        {
+            return 0;
+        }
+
+        var percent = (int)Math.Round(paidAmount / price * 100m, MidpointRounding.AwayFromZero);
+        return Math.Clamp(percent, 0, 100);
     }
 }

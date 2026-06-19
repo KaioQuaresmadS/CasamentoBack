@@ -9,13 +9,16 @@ public sealed class GiftRepository(AppDbContext dbContext) : IGiftRepository
 {
     public async Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await dbContext.Gifts.FirstOrDefaultAsync(x => x.Id == id && x.IsActive, cancellationToken);
+        return await dbContext.Gifts
+            .Include(x => x.Contributions)
+            .FirstOrDefaultAsync(x => x.Id == id && x.IsActive, cancellationToken);
     }
 
     public async Task<IReadOnlyList<Gift>> ListActiveAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Gifts
             .AsNoTracking()
+            .Include(x => x.Contributions)
             .Where(x => x.IsActive)
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);

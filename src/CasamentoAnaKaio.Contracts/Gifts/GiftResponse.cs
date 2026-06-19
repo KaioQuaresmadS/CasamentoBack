@@ -6,4 +6,8 @@ public sealed record GiftResponse(
     string Description,
     string ImageUrl,
     decimal Price,
-    int ReservedPercent);
+    int ReservedPercent,
+    decimal ConfirmedAmount,
+    decimal PaidAmount,
+    bool IsPurchased,
+    string PaymentStatus);

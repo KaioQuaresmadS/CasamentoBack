@@ -28,11 +28,6 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Barcode")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -215,6 +210,11 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(10, 2)

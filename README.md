@@ -39,3 +39,30 @@ Depois de atualizar o banco:
 ```powershell
 dotnet ef database update --project src/CasamentoAnaKaio.Infrastructure --startup-project src/CasamentoAnaKaio.Api
 ```
+
+## Deploy no Fly.io com banco Neon
+
+O `fly.toml` usa Docker, expoe a API na porta `8080` e verifica saude em `/health`.
+Antes do deploy, confira se o nome em `app = "casamentoanakaio-backend"` e o mesmo app criado no Fly.
+
+Configure os segredos no Fly, mantendo a URL do Neon fora do repositorio:
+
+```bash
+fly secrets set DATABASE_URL='postgresql://usuario:senha@host/neondb?sslmode=require&channel_binding=require'
+fly secrets set Jwt__Secret='uma-chave-forte-com-pelo-menos-32-caracteres'
+fly secrets set MERCADOPAGO_ACCESS_TOKEN='...'
+fly secrets set MERCADOPAGO_PUBLIC_KEY='...'
+fly secrets set MERCADOPAGO_WEBHOOK_SECRET='...'
+fly secrets set FRONTEND_URL='https://casamento-ana-kaio.netlify.app'
+fly secrets set BACKEND_URL='https://casamentoanakaio-backend.fly.dev'
+```
+
+Depois:
+
+```bash
+fly deploy
+fly status
+fly logs
+```
+
+Se o app no Fly tiver outro nome, atualize tambem `BACKEND_URL`. Se o frontend mudar de dominio, adicione esse novo dominio em `Cors:AllowedOrigins` ou configure segredos como `Cors__AllowedOrigins__0`.

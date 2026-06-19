@@ -1,0 +1,10 @@
+.git
+.vs
+bin
+obj
+**/bin
+**/obj
+*.user
+*.suo
+README.md
+docs

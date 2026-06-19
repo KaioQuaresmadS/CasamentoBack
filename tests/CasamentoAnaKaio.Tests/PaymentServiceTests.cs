@@ -168,6 +168,54 @@ public sealed class PaymentServiceTests
     }
 
     [Fact]
+    public async Task CreateAsync_WithBoletoMethod_FallsBackToRestrictedCheckoutWhenDirectBoletoFails()
+    {
+        var gift = new Gift("Faqueiro Tramontina", "Faqueiro", "https://example.com/faqueiro.jpg", 78.75m);
+        var paymentRepository = new FakePaymentRepository();
+        var client = new FakeMercadoPagoPaymentClient
+        {
+            ThrowBoletoPayment = true
+        };
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            new FakeGiftContributionRepository(),
+            paymentRepository,
+            client,
+            new FakeUnitOfWork());
+
+        var response = await service.CreateAsync(
+            new CreatePaymentRequest(gift.Id, "Ruan", "ruan@gmail.com", "11999999999", "FullGift", 0, "boleto"),
+            CancellationToken.None);
+
+        Assert.Equal("boleto", response.PaymentMethod);
+        Assert.Equal("pref-123", response.PreferenceId);
+        Assert.Equal("https://mp.example/sandbox", response.CheckoutUrl);
+        Assert.Null(response.MercadoPagoPaymentId);
+        Assert.Equal("boleto", client.LastRequest?.PaymentMethod);
+        Assert.Equal("boleto", paymentRepository.Payments[0].PaymentMethod);
+    }
+
+    [Fact]
+    public async Task CreateAsync_WithCreditCardMethod_DoesNotRedirectToMercadoPagoCheckout()
+    {
+        var gift = new Gift("Faqueiro Tramontina", "Faqueiro", "https://example.com/faqueiro.jpg", 78.75m);
+        var client = new FakeMercadoPagoPaymentClient();
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            new FakeGiftContributionRepository(),
+            new FakePaymentRepository(),
+            client,
+            new FakeUnitOfWork());
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(
+            new CreatePaymentRequest(gift.Id, "Ruan", "ruan@gmail.com", "11999999999", "FullGift", 0, "credit_card"),
+            CancellationToken.None));
+
+        Assert.Contains("temporariamente desativado", exception.Message);
+        Assert.Null(client.LastRequest);
+    }
+
+    [Fact]
     public async Task GetMercadoPagoStatusAsync_UpdatesLocalPaymentFromMercadoPagoPaymentId()
     {
         var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
@@ -254,6 +302,7 @@ public sealed class PaymentServiceTests
         public MercadoPagoPreferenceResult PreferenceResult { get; init; } =
             new("pref-123", "https://mp.example/init", "https://mp.example/sandbox");
         public MercadoPagoPaymentDetails? StatusPaymentDetails { get; init; }
+        public bool ThrowBoletoPayment { get; init; }
 
         public Task<MercadoPagoPreferenceResult> CreateCheckoutPreferenceAsync(
             MercadoPagoPreferenceRequest request,
@@ -285,6 +334,11 @@ public sealed class PaymentServiceTests
             string idempotencyKey,
             CancellationToken cancellationToken)
         {
+            if (ThrowBoletoPayment)
+            {
+                throw new InvalidOperationException("Mercado Pago recusou o pagamento boleto (400): missing payer data");
+            }
+
             return Task.FromResult(new MercadoPagoPaymentDetails(
                 "mp-boleto-123",
                 "pending",

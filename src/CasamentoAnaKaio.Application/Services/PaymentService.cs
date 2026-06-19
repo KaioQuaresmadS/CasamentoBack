@@ -27,6 +27,11 @@ public sealed class PaymentService(
         }
 
         var paymentMethod = NormalizePaymentMethod(request.PaymentMethod);
+        if (paymentMethod == "credit_card")
+        {
+            throw new InvalidOperationException("Pagamento por cartao esta temporariamente desativado. Use Pix ou boleto para concluir o presente sem abrir o aplicativo do Mercado Pago.");
+        }
+
         if (paymentMethod == "boleto")
         {
             var boleto = await CreateBoletoCoreAsync(gift, request, mode, cancellationToken);
@@ -93,13 +98,15 @@ public sealed class PaymentService(
         return new CreateBoletoPaymentResponse(
             boleto.Payment.Id,
             boleto.Contribution.Id,
-            boleto.MercadoPagoPayment.Id,
-            NormalizeMercadoPagoStatusForResponse(boleto.MercadoPagoPayment.Status),
-            EmptyToNull(boleto.MercadoPagoPayment.TicketUrl),
-            EmptyToNull(boleto.MercadoPagoPayment.TicketUrl),
-            EmptyToNull(boleto.MercadoPagoPayment.Barcode),
-            EmptyToNull(boleto.MercadoPagoPayment.LinhaDigitavel),
-            boleto.Payment.ExternalReference);
+            boleto.MercadoPagoPayment?.Id ?? string.Empty,
+            NormalizeMercadoPagoStatusForResponse(boleto.MercadoPagoPayment?.Status ?? boleto.Payment.Status),
+            EmptyToNull(boleto.Payment.TicketUrl),
+            EmptyToNull(boleto.Payment.TicketUrl),
+            EmptyToNull(boleto.Payment.Barcode),
+            EmptyToNull(boleto.Payment.LinhaDigitavel),
+            boleto.Payment.ExternalReference,
+            BuildCheckoutUrl(boleto.Payment),
+            BuildPaymentUrl(boleto.Payment));
     }
 
     public async Task<CreatePixPaymentResponse> CreatePixAsync(
@@ -288,13 +295,7 @@ public sealed class PaymentService(
 
     private static CreatePaymentResponse MapCreated(Payment payment, GiftContribution contribution)
     {
-        var checkoutUrl = string.IsNullOrWhiteSpace(payment.SandboxInitPoint)
-            ? payment.InitPoint
-            : payment.SandboxInitPoint;
-        if (string.IsNullOrWhiteSpace(checkoutUrl))
-        {
-            checkoutUrl = payment.TicketUrl;
-        }
+        var checkoutUrl = BuildCheckoutUrl(payment);
 
         return new CreatePaymentResponse(
             payment.Id,
@@ -305,7 +306,7 @@ public sealed class PaymentService(
             checkoutUrl,
             payment.InitPoint,
             payment.SandboxInitPoint,
-            string.IsNullOrWhiteSpace(payment.TicketUrl) ? checkoutUrl : payment.TicketUrl,
+            BuildPaymentUrl(payment),
             EmptyToNull(payment.TicketUrl),
             EmptyToNull(payment.TicketUrl),
             EmptyToNull(payment.Barcode),
@@ -316,6 +317,28 @@ public sealed class PaymentService(
             payment.PreferenceId,
             string.IsNullOrWhiteSpace(payment.MercadoPagoPaymentId) ? null : payment.MercadoPagoPaymentId,
             payment.ExternalReference);
+    }
+
+    private static string BuildCheckoutUrl(Payment payment)
+    {
+        var checkoutUrl = string.IsNullOrWhiteSpace(payment.SandboxInitPoint)
+            ? payment.InitPoint
+            : payment.SandboxInitPoint;
+
+        return string.IsNullOrWhiteSpace(checkoutUrl)
+            ? payment.TicketUrl
+            : checkoutUrl;
+    }
+
+    private static string? BuildPaymentUrl(Payment payment)
+    {
+        if (!string.IsNullOrWhiteSpace(payment.TicketUrl))
+        {
+            return payment.TicketUrl;
+        }
+
+        var checkoutUrl = BuildCheckoutUrl(payment);
+        return string.IsNullOrWhiteSpace(checkoutUrl) ? null : checkoutUrl;
     }
 
     private static void ValidatePixRequest(CreatePixPaymentRequest request)
@@ -391,26 +414,53 @@ public sealed class PaymentService(
             payerEmail,
             externalReference);
 
-        var mercadoPagoPayment = await mercadoPagoClient.CreateBoletoPaymentAsync(
-            new MercadoPagoBoletoPaymentRequest(
-                $"Presente Ana e Kaio - {gift.Name}",
-                amount,
-                payerName,
-                payerEmail,
-                externalReference),
-            $"{contribution.Id:N}-{payment.Id:N}-boleto",
-            cancellationToken);
+        MercadoPagoPaymentDetails? mercadoPagoPayment = null;
 
-        EnsureBoletoPaymentHasPaymentData(mercadoPagoPayment);
+        try
+        {
+            mercadoPagoPayment = await mercadoPagoClient.CreateBoletoPaymentAsync(
+                new MercadoPagoBoletoPaymentRequest(
+                    $"Presente Ana e Kaio - {gift.Name}",
+                    amount,
+                    payerName,
+                    payerEmail,
+                    externalReference),
+                $"{contribution.Id:N}-{payment.Id:N}-boleto",
+                cancellationToken);
 
-        var status = MapMercadoPagoStatus(mercadoPagoPayment.Status);
-        payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
-        payment.SetBoletoData(
-            mercadoPagoPayment.TicketUrl,
-            mercadoPagoPayment.Barcode,
-            mercadoPagoPayment.LinhaDigitavel);
-        payment.SetStatus(status);
-        contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+            EnsureBoletoPaymentHasPaymentData(mercadoPagoPayment);
+
+            var status = MapMercadoPagoStatus(mercadoPagoPayment.Status);
+            payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
+            payment.SetBoletoData(
+                mercadoPagoPayment.TicketUrl,
+                mercadoPagoPayment.Barcode,
+                mercadoPagoPayment.LinhaDigitavel);
+            payment.SetStatus(status);
+            contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+        }
+        catch (InvalidOperationException exception)
+        {
+            Log.Warning(
+                exception,
+                "Boleto direto Mercado Pago indisponivel; criando checkout restrito a boleto. GiftId={GiftId}, ExternalReference={ExternalReference}",
+                gift.Id,
+                externalReference);
+
+            var preference = await mercadoPagoClient.CreateCheckoutPreferenceAsync(
+                new MercadoPagoPreferenceRequest(
+                    $"Presente Ana e Kaio - {gift.Name}",
+                    amount,
+                    payerName,
+                    payerEmail,
+                    "boleto",
+                    externalReference),
+                $"{contribution.Id:N}-{payment.Id:N}-boleto-checkout",
+                cancellationToken);
+
+            EnsureCheckoutPreferenceHasPaymentUrl(preference);
+            payment.SetCheckoutPreference(preference.Id, preference.InitPoint, preference.SandboxInitPoint);
+        }
 
         await contributionRepository.AddAsync(contribution, cancellationToken);
         await paymentRepository.AddAsync(payment, cancellationToken);
@@ -507,5 +557,5 @@ public sealed class PaymentService(
     private sealed record CreatedBoletoPayment(
         GiftContribution Contribution,
         Payment Payment,
-        MercadoPagoPaymentDetails MercadoPagoPayment);
+        MercadoPagoPaymentDetails? MercadoPagoPayment);
 }

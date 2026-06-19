@@ -171,9 +171,33 @@ public sealed class MercadoPagoPaymentClient(
             payment_methods = new
             {
                 excluded_payment_methods = Array.Empty<object>(),
-                excluded_payment_types = Array.Empty<object>(),
+                excluded_payment_types = BuildExcludedPaymentTypes(request.PaymentMethod),
                 installments = 12
             }
+        };
+    }
+
+    private static object[] BuildExcludedPaymentTypes(string paymentMethod)
+    {
+        return paymentMethod.Trim().ToLowerInvariant() switch
+        {
+            "boleto" => new object[]
+            {
+                new { id = "credit_card" },
+                new { id = "debit_card" },
+                new { id = "bank_transfer" },
+                new { id = "prepaid_card" },
+                new { id = "atm" }
+            },
+            "pix" => new object[]
+            {
+                new { id = "credit_card" },
+                new { id = "debit_card" },
+                new { id = "ticket" },
+                new { id = "prepaid_card" },
+                new { id = "atm" }
+            },
+            _ => Array.Empty<object>()
         };
     }
 

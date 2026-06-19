@@ -160,6 +160,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
             entity.Property(x => x.PixCopyPaste).HasColumnType("text").IsRequired();
             entity.Property(x => x.QrCodeBase64).HasColumnType("text").IsRequired();
             entity.Property(x => x.TicketUrl).HasMaxLength(1000).IsRequired();
+            entity.Property(x => x.Barcode).HasMaxLength(2000).IsRequired();
+            entity.Property(x => x.LinhaDigitavel).HasMaxLength(2000).IsRequired();
             entity.HasIndex(x => x.GiftContributionId);
             entity.HasIndex(x => x.MercadoPagoPaymentId);
             entity.HasIndex(x => x.ExternalReference).IsUnique();

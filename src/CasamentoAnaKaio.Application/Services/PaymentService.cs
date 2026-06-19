@@ -27,6 +27,12 @@ public sealed class PaymentService(
         }
 
         var paymentMethod = NormalizePaymentMethod(request.PaymentMethod);
+        if (paymentMethod == "boleto")
+        {
+            var boleto = await CreateBoletoCoreAsync(gift, request, mode, cancellationToken);
+            return MapCreated(boleto.Payment, boleto.Contribution);
+        }
+
         var quotaQuantity = mode == GiftContributionMode.FullGift ? 0 : request.QuotaQuantity;
         var amount = GiftContribution.CalculateAmount(gift.Price, mode, quotaQuantity);
 
@@ -68,6 +74,32 @@ public sealed class PaymentService(
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return MapCreated(payment, contribution);
+    }
+
+    public async Task<CreateBoletoPaymentResponse> CreateBoletoAsync(
+        CreatePaymentRequest request,
+        CancellationToken cancellationToken)
+    {
+        var gift = await giftRepository.GetByIdAsync(request.GiftId, cancellationToken)
+            ?? throw new InvalidOperationException("Presente nao encontrado.");
+
+        if (!Enum.TryParse<GiftContributionMode>(request.Mode, true, out var mode))
+        {
+            throw new ArgumentException("Modo de contribuicao invalido.", nameof(request.Mode));
+        }
+
+        var boleto = await CreateBoletoCoreAsync(gift, request, mode, cancellationToken);
+
+        return new CreateBoletoPaymentResponse(
+            boleto.Payment.Id,
+            boleto.Contribution.Id,
+            boleto.MercadoPagoPayment.Id,
+            NormalizeMercadoPagoStatusForResponse(boleto.MercadoPagoPayment.Status),
+            EmptyToNull(boleto.MercadoPagoPayment.TicketUrl),
+            EmptyToNull(boleto.MercadoPagoPayment.TicketUrl),
+            EmptyToNull(boleto.MercadoPagoPayment.Barcode),
+            EmptyToNull(boleto.MercadoPagoPayment.LinhaDigitavel),
+            boleto.Payment.ExternalReference);
     }
 
     public async Task<CreatePixPaymentResponse> CreatePixAsync(
@@ -160,6 +192,65 @@ public sealed class PaymentService(
             externalReference);
     }
 
+    public async Task<PaymentStatusResponse?> GetMercadoPagoStatusAsync(
+        string mercadoPagoPaymentId,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(mercadoPagoPaymentId))
+        {
+            return null;
+        }
+
+        var mercadoPagoPayment = await mercadoPagoClient.GetPaymentAsync(mercadoPagoPaymentId.Trim(), cancellationToken);
+        var payment = await paymentRepository.GetByMercadoPagoPaymentIdAsync(mercadoPagoPayment.Id, cancellationToken);
+        if (payment is null && !string.IsNullOrWhiteSpace(mercadoPagoPayment.ExternalReference))
+        {
+            payment = await paymentRepository.GetByExternalReferenceAsync(mercadoPagoPayment.ExternalReference, cancellationToken);
+        }
+
+        if (payment is null)
+        {
+            return null;
+        }
+
+        var status = MapMercadoPagoStatus(mercadoPagoPayment.Status);
+        payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
+        if (HasPixData(mercadoPagoPayment))
+        {
+            payment.SetPixData(
+                mercadoPagoPayment.QrCode,
+                mercadoPagoPayment.QrCodeBase64,
+                mercadoPagoPayment.TicketUrl);
+        }
+
+        if (HasBoletoData(mercadoPagoPayment))
+        {
+            payment.SetBoletoData(
+                mercadoPagoPayment.TicketUrl,
+                mercadoPagoPayment.Barcode,
+                mercadoPagoPayment.LinhaDigitavel);
+        }
+
+        payment.SetStatus(status);
+
+        var contribution = await contributionRepository.GetByIdAsync(payment.GiftContributionId, cancellationToken);
+        if (contribution is not null)
+        {
+            contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+            ApplyContributionStatus(contribution, status);
+        }
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new PaymentStatusResponse(
+            payment.Id,
+            payment.GiftContributionId,
+            payment.Status,
+            payment.PaymentMethod,
+            payment.Amount,
+            contribution?.PaidAt);
+    }
+
     public async Task<PaymentStatusResponse?> GetStatusAsync(Guid id, CancellationToken cancellationToken)
     {
         var payment = await paymentRepository.GetByIdAsync(id, cancellationToken);
@@ -200,6 +291,10 @@ public sealed class PaymentService(
         var checkoutUrl = string.IsNullOrWhiteSpace(payment.SandboxInitPoint)
             ? payment.InitPoint
             : payment.SandboxInitPoint;
+        if (string.IsNullOrWhiteSpace(checkoutUrl))
+        {
+            checkoutUrl = payment.TicketUrl;
+        }
 
         return new CreatePaymentResponse(
             payment.Id,
@@ -210,10 +305,11 @@ public sealed class PaymentService(
             checkoutUrl,
             payment.InitPoint,
             payment.SandboxInitPoint,
-            checkoutUrl,
-            null,
-            null,
-            null,
+            string.IsNullOrWhiteSpace(payment.TicketUrl) ? checkoutUrl : payment.TicketUrl,
+            EmptyToNull(payment.TicketUrl),
+            EmptyToNull(payment.TicketUrl),
+            EmptyToNull(payment.Barcode),
+            EmptyToNull(payment.LinhaDigitavel),
             string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
             string.IsNullOrWhiteSpace(payment.QrCodeBase64) ? null : payment.QrCodeBase64,
             string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
@@ -265,6 +361,121 @@ public sealed class PaymentService(
         }
     }
 
+    private async Task<CreatedBoletoPayment> CreateBoletoCoreAsync(
+        Gift gift,
+        CreatePaymentRequest request,
+        GiftContributionMode mode,
+        CancellationToken cancellationToken)
+    {
+        var quotaQuantity = mode == GiftContributionMode.FullGift ? 0 : request.QuotaQuantity;
+        var amount = GiftContribution.CalculateAmount(gift.Price, mode, quotaQuantity);
+        var payerName = request.PayerName.Trim();
+        var payerEmail = BuildPayerEmail(request.PayerEmail);
+
+        var contribution = new GiftContribution(
+            gift,
+            payerName,
+            request.PayerPhone,
+            mode,
+            quotaQuantity,
+            string.Empty,
+            string.Empty,
+            string.Empty);
+
+        var externalReference = contribution.Id.ToString("N");
+        var payment = new Payment(
+            contribution.Id,
+            amount,
+            "boleto",
+            payerName,
+            payerEmail,
+            externalReference);
+
+        var mercadoPagoPayment = await mercadoPagoClient.CreateBoletoPaymentAsync(
+            new MercadoPagoBoletoPaymentRequest(
+                $"Presente Ana e Kaio - {gift.Name}",
+                amount,
+                payerName,
+                payerEmail,
+                externalReference),
+            $"{contribution.Id:N}-{payment.Id:N}-boleto",
+            cancellationToken);
+
+        EnsureBoletoPaymentHasPaymentData(mercadoPagoPayment);
+
+        var status = MapMercadoPagoStatus(mercadoPagoPayment.Status);
+        payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
+        payment.SetBoletoData(
+            mercadoPagoPayment.TicketUrl,
+            mercadoPagoPayment.Barcode,
+            mercadoPagoPayment.LinhaDigitavel);
+        payment.SetStatus(status);
+        contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+
+        await contributionRepository.AddAsync(contribution, cancellationToken);
+        await paymentRepository.AddAsync(payment, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new CreatedBoletoPayment(contribution, payment, mercadoPagoPayment);
+    }
+
+    private static void ApplyContributionStatus(GiftContribution contribution, PaymentStatus status)
+    {
+        switch (status)
+        {
+            case PaymentStatus.Paid:
+                contribution.MarkAsPaid();
+                break;
+            case PaymentStatus.Pending:
+                contribution.MarkAsPending();
+                break;
+            case PaymentStatus.Processing:
+                contribution.MarkAsProcessing();
+                break;
+            case PaymentStatus.Failed:
+                contribution.MarkAsFailed();
+                break;
+            case PaymentStatus.Cancelled:
+                contribution.MarkAsCancelled();
+                break;
+            case PaymentStatus.Refunded:
+                contribution.MarkAsRefunded();
+                break;
+            case PaymentStatus.ChargedBack:
+                contribution.MarkAsChargedBack();
+                break;
+            case PaymentStatus.Expired:
+                contribution.MarkAsExpired();
+                break;
+        }
+    }
+
+    private static string? EmptyToNull(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? null : value;
+    }
+
+    private static void EnsureBoletoPaymentHasPaymentData(MercadoPagoPaymentDetails payment)
+    {
+        if (!HasBoletoData(payment))
+        {
+            throw new InvalidOperationException("Mercado Pago criou o boleto, mas nao retornou link, codigo de barras ou linha digitavel.");
+        }
+    }
+
+    private static bool HasPixData(MercadoPagoPaymentDetails payment)
+    {
+        return !string.IsNullOrWhiteSpace(payment.QrCode) ||
+            !string.IsNullOrWhiteSpace(payment.QrCodeBase64);
+    }
+
+    private static bool HasBoletoData(MercadoPagoPaymentDetails payment)
+    {
+        return !string.IsNullOrWhiteSpace(payment.TicketUrl) ||
+            !string.IsNullOrWhiteSpace(payment.Barcode) ||
+            !string.IsNullOrWhiteSpace(payment.LinhaDigitavel);
+    }
+
     private static string NormalizePaymentMethod(string? paymentMethod)
     {
         if (string.IsNullOrWhiteSpace(paymentMethod))
@@ -292,4 +503,9 @@ public sealed class PaymentService(
             ? "convidado+pagamento@casamento-ana-kaio.local"
             : payerEmail.Trim();
     }
+
+    private sealed record CreatedBoletoPayment(
+        GiftContribution Contribution,
+        Payment Payment,
+        MercadoPagoPaymentDetails MercadoPagoPayment);
 }

@@ -182,6 +182,14 @@ public sealed class PaymentWebhookServiceTests
             return Task.FromResult(paymentDetails);
         }
 
+        public Task<MercadoPagoPaymentDetails> CreateBoletoPaymentAsync(
+            MercadoPagoBoletoPaymentRequest request,
+            string idempotencyKey,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(paymentDetails);
+        }
+
         public Task<MercadoPagoPaymentDetails> GetPaymentAsync(string paymentId, CancellationToken cancellationToken)
         {
             return Task.FromResult(paymentDetails);

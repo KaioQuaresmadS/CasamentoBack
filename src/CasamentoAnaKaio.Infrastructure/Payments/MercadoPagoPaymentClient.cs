@@ -89,6 +89,35 @@ public sealed class MercadoPagoPaymentClient(
         return ParsePaymentDetails(payload);
     }
 
+    public async Task<MercadoPagoPaymentDetails> CreateBoletoPaymentAsync(
+        MercadoPagoBoletoPaymentRequest request,
+        string idempotencyKey,
+        CancellationToken cancellationToken)
+    {
+        EnsureAccessToken();
+
+        using var httpRequest = new HttpRequestMessage(HttpMethod.Post, "v1/payments");
+        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.AccessToken);
+        httpRequest.Headers.TryAddWithoutValidation("X-Idempotency-Key", idempotencyKey);
+        httpRequest.Content = JsonContent.Create(BuildBoletoPaymentBody(request), options: JsonOptions);
+
+        using var response = await httpClient.SendAsync(httpRequest, cancellationToken);
+        var payload = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Log.Error(
+                "Mercado Pago recusou boleto. StatusCode={StatusCode}, ExternalReference={ExternalReference}, Response={Response}",
+                (int)response.StatusCode,
+                request.ExternalReference,
+                payload);
+
+            throw new InvalidOperationException($"Mercado Pago recusou o pagamento boleto ({(int)response.StatusCode}): {payload}");
+        }
+
+        return ParsePaymentDetails(payload);
+    }
+
     public async Task<MercadoPagoPaymentDetails> GetPaymentAsync(
         string mercadoPagoPaymentId,
         CancellationToken cancellationToken)
@@ -167,11 +196,31 @@ public sealed class MercadoPagoPaymentClient(
         };
     }
 
+    private object BuildBoletoPaymentBody(MercadoPagoBoletoPaymentRequest request)
+    {
+        var backendUrl = options.BackendUrl.TrimEnd('/');
+
+        return new
+        {
+            transaction_amount = request.Amount,
+            description = request.Description,
+            payment_method_id = "bolbradesco",
+            payer = new
+            {
+                email = request.PayerEmail,
+                first_name = request.PayerName
+            },
+            external_reference = request.ExternalReference,
+            notification_url = $"{backendUrl}/api/payments/webhook"
+        };
+    }
+
     private static MercadoPagoPaymentDetails ParsePaymentDetails(string payload)
     {
         using var document = JsonDocument.Parse(payload);
         var root = document.RootElement;
         var transactionData = TryGet(root, "point_of_interaction", "transaction_data");
+        var transactionDetails = TryGet(root, "transaction_details");
 
         return new MercadoPagoPaymentDetails(
             ReadString(root, "id"),
@@ -181,7 +230,20 @@ public sealed class MercadoPagoPaymentClient(
             ReadOptionalString(root, "payment_type_id"),
             transactionData is null ? null : ReadOptionalString(transactionData.Value, "qr_code"),
             transactionData is null ? null : ReadOptionalString(transactionData.Value, "qr_code_base64"),
-            transactionData is null ? null : ReadOptionalString(transactionData.Value, "ticket_url"));
+            FirstNotBlank(
+                transactionData is null ? null : ReadOptionalString(transactionData.Value, "ticket_url"),
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "external_resource_url"),
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "ticket_url"),
+                ReadOptionalString(root, "external_resource_url")),
+            FirstNotBlank(
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "barcode"),
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "barcode_content"),
+                ReadOptionalString(root, "barcode")),
+            FirstNotBlank(
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "payment_method_reference_id"),
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "line"),
+                transactionDetails is null ? null : ReadOptionalString(transactionDetails.Value, "linha_digitavel"),
+                ReadOptionalString(root, "linha_digitavel")));
     }
 
     private void EnsureAccessToken()
@@ -272,5 +334,10 @@ public sealed class MercadoPagoPaymentClient(
             JsonValueKind.Number => value.GetRawText(),
             _ => null
         };
+    }
+
+    private static string? FirstNotBlank(params string?[] values)
+    {
+        return values.FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
     }
 }

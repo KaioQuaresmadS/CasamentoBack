@@ -53,10 +53,22 @@ public sealed class PaymentWebhookService(
         }
 
         payment.SetMercadoPagoPaymentId(mercadoPagoPayment.Id);
-        payment.SetPixData(
-            mercadoPagoPayment.QrCode,
-            mercadoPagoPayment.QrCodeBase64,
-            mercadoPagoPayment.TicketUrl);
+        if (HasPixData(mercadoPagoPayment))
+        {
+            payment.SetPixData(
+                mercadoPagoPayment.QrCode,
+                mercadoPagoPayment.QrCodeBase64,
+                mercadoPagoPayment.TicketUrl);
+        }
+
+        if (HasBoletoData(mercadoPagoPayment))
+        {
+            payment.SetBoletoData(
+                mercadoPagoPayment.TicketUrl,
+                mercadoPagoPayment.Barcode,
+                mercadoPagoPayment.LinhaDigitavel);
+        }
+
         payment.SetStatus(status);
 
         var contribution = await contributionRepository.GetByIdAsync(payment.GiftContributionId, cancellationToken);
@@ -150,6 +162,19 @@ public sealed class PaymentWebhookService(
                 status,
                 externalReference);
         }
+    }
+
+    private static bool HasPixData(MercadoPagoPaymentDetails payment)
+    {
+        return !string.IsNullOrWhiteSpace(payment.QrCode) ||
+            !string.IsNullOrWhiteSpace(payment.QrCodeBase64);
+    }
+
+    private static bool HasBoletoData(MercadoPagoPaymentDetails payment)
+    {
+        return !string.IsNullOrWhiteSpace(payment.TicketUrl) ||
+            !string.IsNullOrWhiteSpace(payment.Barcode) ||
+            !string.IsNullOrWhiteSpace(payment.LinhaDigitavel);
     }
 
     private static string? TryReadQuery(IReadOnlyDictionary<string, string?> query, string key)

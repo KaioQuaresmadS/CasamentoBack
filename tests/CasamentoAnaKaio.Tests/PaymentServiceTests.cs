@@ -113,6 +113,97 @@ public sealed class PaymentServiceTests
         Assert.Equal(1, unitOfWork.SaveChangesCount);
     }
 
+    [Fact]
+    public async Task CreateBoletoAsync_CreatesDirectBoletoPayment()
+    {
+        var gift = new Gift("Faqueiro Tramontina", "Faqueiro", "https://example.com/faqueiro.jpg", 78.75m);
+        var contributionRepository = new FakeGiftContributionRepository();
+        var paymentRepository = new FakePaymentRepository();
+        var client = new FakeMercadoPagoPaymentClient();
+        var unitOfWork = new FakeUnitOfWork();
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            contributionRepository,
+            paymentRepository,
+            client,
+            unitOfWork);
+
+        var response = await service.CreateBoletoAsync(
+            new CreatePaymentRequest(gift.Id, "Ruan", "ruan@gmail.com", "11999999999", "FullGift", 0, "boleto"),
+            CancellationToken.None);
+
+        Assert.Equal("mp-boleto-123", response.PaymentId);
+        Assert.Equal("pending", response.Status);
+        Assert.Equal("https://mp.example/boleto", response.TicketUrl);
+        Assert.Equal("https://mp.example/boleto", response.BoletoUrl);
+        Assert.Equal("1234567890", response.Barcode);
+        Assert.Equal("34191.79001 01043.510047 91020.150008 8 98760000007875", response.LinhaDigitavel);
+        Assert.Equal("boleto", paymentRepository.Payments[0].PaymentMethod);
+        Assert.Equal("mp-boleto-123", paymentRepository.Payments[0].MercadoPagoPaymentId);
+        Assert.Equal("1234567890", paymentRepository.Payments[0].Barcode);
+        Assert.Equal(1, unitOfWork.SaveChangesCount);
+    }
+
+    [Fact]
+    public async Task CreateAsync_WithBoletoMethod_CreatesDirectBoletoPayment()
+    {
+        var gift = new Gift("Faqueiro Tramontina", "Faqueiro", "https://example.com/faqueiro.jpg", 78.75m);
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            new FakeGiftContributionRepository(),
+            new FakePaymentRepository(),
+            new FakeMercadoPagoPaymentClient(),
+            new FakeUnitOfWork());
+
+        var response = await service.CreateAsync(
+            new CreatePaymentRequest(gift.Id, "Ruan", "ruan@gmail.com", "11999999999", "FullGift", 0, "boleto"),
+            CancellationToken.None);
+
+        Assert.Equal("boleto", response.PaymentMethod);
+        Assert.Equal("mp-boleto-123", response.MercadoPagoPaymentId);
+        Assert.Equal("https://mp.example/boleto", response.TicketUrl);
+        Assert.Equal("https://mp.example/boleto", response.BoletoUrl);
+        Assert.Equal("1234567890", response.Barcode);
+        Assert.Equal("34191.79001 01043.510047 91020.150008 8 98760000007875", response.LinhaDigitavel);
+    }
+
+    [Fact]
+    public async Task GetMercadoPagoStatusAsync_UpdatesLocalPaymentFromMercadoPagoPaymentId()
+    {
+        var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
+        var contributionRepository = new FakeGiftContributionRepository();
+        var paymentRepository = new FakePaymentRepository();
+        var client = new FakeMercadoPagoPaymentClient
+        {
+            StatusPaymentDetails = new MercadoPagoPaymentDetails(
+                "mp-pix-123",
+                "approved",
+                null,
+                "pix",
+                "bank_transfer",
+                "qr-code",
+                "qr-code-base64",
+                "https://mp.example/ticket")
+        };
+        var unitOfWork = new FakeUnitOfWork();
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            contributionRepository,
+            paymentRepository,
+            client,
+            unitOfWork);
+
+        await service.CreatePixAsync(
+            new CreatePixPaymentRequest(gift.Id, "Maria Silva", "maria@example.com", 61m),
+            CancellationToken.None);
+
+        var response = await service.GetMercadoPagoStatusAsync("mp-pix-123", CancellationToken.None);
+
+        Assert.NotNull(response);
+        Assert.Equal("Paid", response.Status);
+        Assert.Equal(2, unitOfWork.SaveChangesCount);
+    }
+
     private sealed class FakeGiftRepository(Gift gift) : IGiftRepository
     {
         public Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult(gift.Id == id ? gift : null);
@@ -162,6 +253,7 @@ public sealed class PaymentServiceTests
         public MercadoPagoPreferenceRequest? LastRequest { get; private set; }
         public MercadoPagoPreferenceResult PreferenceResult { get; init; } =
             new("pref-123", "https://mp.example/init", "https://mp.example/sandbox");
+        public MercadoPagoPaymentDetails? StatusPaymentDetails { get; init; }
 
         public Task<MercadoPagoPreferenceResult> CreateCheckoutPreferenceAsync(
             MercadoPagoPreferenceRequest request,
@@ -188,9 +280,27 @@ public sealed class PaymentServiceTests
                 "https://mp.example/ticket"));
         }
 
+        public Task<MercadoPagoPaymentDetails> CreateBoletoPaymentAsync(
+            MercadoPagoBoletoPaymentRequest request,
+            string idempotencyKey,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new MercadoPagoPaymentDetails(
+                "mp-boleto-123",
+                "pending",
+                request.ExternalReference,
+                "bolbradesco",
+                "ticket",
+                null,
+                null,
+                "https://mp.example/boleto",
+                "1234567890",
+                "34191.79001 01043.510047 91020.150008 8 98760000007875"));
+        }
+
         public Task<MercadoPagoPaymentDetails> GetPaymentAsync(string paymentId, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new MercadoPagoPaymentDetails(paymentId, "pending", string.Empty, null, null, null, null, null));
+            return Task.FromResult(StatusPaymentDetails ?? new MercadoPagoPaymentDetails(paymentId, "pending", string.Empty, null, null, null, null, null));
         }
     }
 

@@ -12,6 +12,11 @@ public interface IMercadoPagoPaymentClient
         string idempotencyKey,
         CancellationToken cancellationToken);
 
+    Task<MercadoPagoPaymentDetails> CreateBoletoPaymentAsync(
+        MercadoPagoBoletoPaymentRequest request,
+        string idempotencyKey,
+        CancellationToken cancellationToken);
+
     Task<MercadoPagoPaymentDetails> GetPaymentAsync(
         string mercadoPagoPaymentId,
         CancellationToken cancellationToken);
@@ -37,6 +42,13 @@ public sealed record MercadoPagoPixPaymentRequest(
     string PayerEmail,
     string ExternalReference);
 
+public sealed record MercadoPagoBoletoPaymentRequest(
+    string Description,
+    decimal Amount,
+    string PayerName,
+    string PayerEmail,
+    string ExternalReference);
+
 public sealed record MercadoPagoPaymentDetails(
     string Id,
     string Status,
@@ -45,4 +57,6 @@ public sealed record MercadoPagoPaymentDetails(
     string? PaymentTypeId,
     string? QrCode,
     string? QrCodeBase64,
-    string? TicketUrl);
+    string? TicketUrl,
+    string? Barcode = null,
+    string? LinhaDigitavel = null);

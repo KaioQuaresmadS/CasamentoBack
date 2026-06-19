@@ -44,6 +44,8 @@ public class Payment
     public string PixCopyPaste { get; private set; } = string.Empty;
     public string QrCodeBase64 { get; private set; } = string.Empty;
     public string TicketUrl { get; private set; } = string.Empty;
+    public string Barcode { get; private set; } = string.Empty;
+    public string LinhaDigitavel { get; private set; } = string.Empty;
     public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; private set; } = DateTimeOffset.UtcNow;
 
@@ -71,6 +73,14 @@ public class Payment
         PixCopyPaste = qrCode ?? string.Empty;
         QrCodeBase64 = qrCodeBase64 ?? string.Empty;
         TicketUrl = ticketUrl ?? string.Empty;
+        Touch();
+    }
+
+    public void SetBoletoData(string? ticketUrl, string? barcode, string? linhaDigitavel)
+    {
+        TicketUrl = ticketUrl ?? string.Empty;
+        Barcode = barcode ?? string.Empty;
+        LinhaDigitavel = linhaDigitavel ?? string.Empty;
         Touch();
     }
 

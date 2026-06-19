@@ -29,12 +29,30 @@ public sealed class PaymentsController(
         return Ok(response);
     }
 
+    [HttpPost("boleto")]
+    public async Task<ActionResult<CreateBoletoPaymentResponse>> CreateBoleto(
+        CreatePaymentRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await paymentService.CreateBoletoAsync(request, cancellationToken);
+        return CreatedAtAction(nameof(GetStatus), new { id = response.Id }, response);
+    }
+
     [HttpGet("{id:guid}/status")]
     public async Task<ActionResult<PaymentStatusResponse>> GetStatus(
         Guid id,
         CancellationToken cancellationToken)
     {
         var response = await paymentService.GetStatusAsync(id, cancellationToken);
+        return response is null ? NotFound() : Ok(response);
+    }
+
+    [HttpGet("mercado-pago/{paymentId}/status")]
+    public async Task<ActionResult<PaymentStatusResponse>> GetMercadoPagoStatus(
+        string paymentId,
+        CancellationToken cancellationToken)
+    {
+        var response = await paymentService.GetMercadoPagoStatusAsync(paymentId, cancellationToken);
         return response is null ? NotFound() : Ok(response);
     }
 

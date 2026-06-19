@@ -14,7 +14,8 @@ public sealed record CreatePaymentResponse(
     string? PaymentUrl,
     string? TicketUrl,
     string? BoletoUrl,
-    string? Barcode,
+    [property: JsonPropertyName("barcode")] string? Barcode,
+    string? LinhaDigitavel,
     string? QrCode,
     string? QrCodeBase64,
     string? PixCopyPaste,
@@ -36,6 +37,9 @@ public sealed record CreatePaymentResponse(
 
     [JsonPropertyName("boleto_url")]
     public string? BoletoUrlSnake => BoletoUrl;
+
+    [JsonPropertyName("linha_digitavel")]
+    public string? LinhaDigitavelSnake => LinhaDigitavel;
 
     [JsonPropertyName("qr_code")]
     public string? QrCodeSnake => QrCode;

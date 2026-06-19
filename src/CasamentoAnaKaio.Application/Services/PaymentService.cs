@@ -550,7 +550,7 @@ public sealed class PaymentService(
     private static string BuildPayerEmail(string? payerEmail)
     {
         return string.IsNullOrWhiteSpace(payerEmail)
-            ? "convidado+pagamento@casamento-ana-kaio.local"
+            ? "convidado@casamentoanakaio.com.br"
             : payerEmail.Trim();
     }
 

@@ -94,7 +94,7 @@ app.UseExceptionHandler(errorApp =>
         var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
         var exception = exceptionFeature?.Error;
 
-        context.Response.StatusCode = exception is ValidationException or ArgumentException or ArgumentOutOfRangeException
+        context.Response.StatusCode = exception is ValidationException or ArgumentException or ArgumentOutOfRangeException or InvalidOperationException
             ? StatusCodes.Status400BadRequest
             : StatusCodes.Status500InternalServerError;
 

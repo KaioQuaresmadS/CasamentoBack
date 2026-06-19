@@ -72,11 +72,12 @@ public sealed class PaymentServiceTests
             new FakeUnitOfWork());
 
         var response = await service.CreateAsync(
-            new CreatePaymentRequest(gift.Id, "Maria Silva", "maria@example.com", "11999999999", "FullGift", 0, null),
+            new CreatePaymentRequest(gift.Id, "Maria Silva", null, "11999999999", "FullGift", 0, null),
             CancellationToken.None);
 
         Assert.Equal("mercado_pago", response.PaymentMethod);
         Assert.Equal("mercado_pago", client.LastRequest?.PaymentMethod);
+        Assert.Equal("convidado@casamentoanakaio.com.br", client.LastRequest?.PayerEmail);
         Assert.Equal("https://mp.example/sandbox", response.SandboxInitPoint);
     }
 

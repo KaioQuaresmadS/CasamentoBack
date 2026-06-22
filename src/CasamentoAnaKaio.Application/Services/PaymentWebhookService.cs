@@ -76,6 +76,16 @@ public sealed class PaymentWebhookService(
         {
             contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
             ApplyContributionStatus(contribution, status);
+
+            // Marcar o presente como comprado quando o pagamento é aprovado
+            if (status == PaymentStatus.Paid && contribution.Gift is not null)
+            {
+                contribution.Gift.MarkAsPurchased();
+                Log.Information(
+                    "Presente marcado como comprado. GiftId={GiftId}, GiftName={GiftName}",
+                    contribution.Gift.Id,
+                    contribution.Gift.Name);
+            }
         }
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

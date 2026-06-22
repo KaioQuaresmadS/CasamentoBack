@@ -180,6 +180,7 @@ public sealed class PaymentService(
             mercadoPagoPayment.TicketUrl);
         payment.SetStatus(status);
         contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+        ApplyContributionStatus(contribution, status);
 
         await contributionRepository.AddAsync(contribution, cancellationToken);
         await paymentRepository.AddAsync(payment, cancellationToken);
@@ -439,6 +440,7 @@ public sealed class PaymentService(
                 mercadoPagoPayment.LinhaDigitavel);
             payment.SetStatus(status);
             contribution.SetProviderPaymentId(mercadoPagoPayment.Id);
+            ApplyContributionStatus(contribution, status);
         }
         catch (InvalidOperationException exception)
         {
@@ -476,6 +478,7 @@ public sealed class PaymentService(
         {
             case PaymentStatus.Paid:
                 contribution.MarkAsPaid();
+                contribution.Gift?.MarkAsPurchased();
                 break;
             case PaymentStatus.Pending:
                 contribution.MarkAsPending();

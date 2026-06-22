@@ -1,39 +1,46 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj": {}
+    "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj": {}
   },
   "projects": {
-    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj": {
+    "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj",
+        "projectUniqueName": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
         "projectName": "CasamentoAnaKaio.Api",
-        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj",
-        "packagesPath": "/tmp/.nuget/packages/",
-        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Api/obj/",
+        "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
+        "packagesPath": "C:\\Users\\kaio.souza\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Api\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/tmp/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kaio.souza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj"
               },
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj"
               },
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj"
               }
             }
           }
@@ -48,10 +55,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -88,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -506,33 +514,40 @@
         }
       }
     },
-    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
+    "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj",
+        "projectUniqueName": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
         "projectName": "CasamentoAnaKaio.Application",
-        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj",
-        "packagesPath": "/tmp/.nuget/packages/",
-        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/obj/",
+        "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
+        "packagesPath": "C:\\Users\\kaio.souza\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/tmp/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kaio.souza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj"
               },
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj"
               }
             }
           }
@@ -547,15 +562,16 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
-            "BCrypt.Net-Core": {
+            "BCrypt.Net-Next": {
               "target": "Package",
-              "version": "[1.0.0, )"
+              "version": "[4.0.3, )"
             },
             "ClosedXML": {
               "target": "Package",
@@ -594,7 +610,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -872,26 +888,33 @@
         }
       }
     },
-    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj": {
+    "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj",
         "projectName": "CasamentoAnaKaio.Contracts",
-        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/CasamentoAnaKaio.Contracts.csproj",
-        "packagesPath": "/tmp/.nuget/packages/",
-        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Contracts/obj/",
+        "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\CasamentoAnaKaio.Contracts.csproj",
+        "packagesPath": "C:\\Users\\kaio.souza\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Contracts\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/tmp/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kaio.souza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -906,10 +929,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "imports": [
             "net461",
@@ -927,7 +951,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1205,26 +1229,33 @@
         }
       }
     },
-    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
+    "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj",
         "projectName": "CasamentoAnaKaio.Domain",
-        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj",
-        "packagesPath": "/tmp/.nuget/packages/",
-        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/obj/",
+        "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj",
+        "packagesPath": "C:\\Users\\kaio.souza\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/tmp/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kaio.souza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -1239,10 +1270,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "imports": [
             "net461",
@@ -1260,7 +1292,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1538,33 +1570,40 @@
         }
       }
     },
-    "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj": {
+    "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
         "projectName": "CasamentoAnaKaio.Infrastructure",
-        "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj",
-        "packagesPath": "/tmp/.nuget/packages/",
-        "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/obj/",
+        "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\kaio.souza\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/tmp/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\kaio.souza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj"
               },
-              "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
-                "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj"
+              "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
+                "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj"
               }
             }
           }
@@ -1579,10 +1618,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
@@ -1618,7 +1658,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

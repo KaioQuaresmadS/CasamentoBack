@@ -42,6 +42,25 @@ public sealed class GiftServiceTests
         Assert.Equal("confirmed", response.PaymentStatus);
     }
 
+    [Fact]
+    public async Task ListActiveAsync_ReturnsMarkedGiftAsPurchased()
+    {
+        var gift = new Gift("Liquidificador", "Liquidificador Mondial", "https://example.com/liquidificador.jpg", 97.90m);
+        gift.MarkAsPurchased();
+
+        var service = new GiftService(
+            new FakeGiftRepository(gift),
+            new FakeUnitOfWork(),
+            new NoopValidator<CreateGiftRequest>(),
+            new NoopValidator<UpdateGiftRequest>());
+
+        var gifts = await service.ListActiveAsync(CancellationToken.None);
+        var response = Assert.Single(gifts);
+
+        Assert.True(response.IsPurchased);
+        Assert.Equal("confirmed", response.PaymentStatus);
+    }
+
     private sealed class FakeGiftRepository(params Gift[] gifts) : IGiftRepository
     {
         public Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken)

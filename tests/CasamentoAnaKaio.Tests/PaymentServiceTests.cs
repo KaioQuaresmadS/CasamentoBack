@@ -251,6 +251,7 @@ public sealed class PaymentServiceTests
 
         Assert.NotNull(response);
         Assert.Equal("Paid", response.Status);
+        Assert.True(gift.IsPurchased);
         Assert.Equal(2, unitOfWork.SaveChangesCount);
     }
 

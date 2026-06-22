@@ -1,14 +1,18 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
-      "BCrypt.Net-Core/1.0.0": {
+      "BCrypt.Net-Next/4.0.3": {
         "type": "package",
         "compile": {
-          "lib/net451/BCrypt.Net-Core.dll": {}
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net451/BCrypt.Net-Core.dll": {}
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "related": ".xml"
+          }
         }
       },
       "ClosedXML/0.105.0": {
@@ -539,7 +543,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "BCrypt.Net-Core": "1.0.0",
+          "BCrypt.Net-Next": "4.0.3",
           "CasamentoAnaKaio.Contracts": "1.0.0",
           "CasamentoAnaKaio.Domain": "1.0.0",
           "ClosedXML": "0.105.0",
@@ -578,17 +582,35 @@
     }
   },
   "libraries": {
-    "BCrypt.Net-Core/1.0.0": {
-      "sha512": "yC+NlEwc04JYJeWGZomeP3faf0gFLMS6NTyxAi7YLHz/UPQmVJt7IM4rSA7FsgrSJLyZ8QXnhPqrXjQoeRFiUA==",
+    "BCrypt.Net-Next/4.0.3": {
+      "sha512": "W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
       "type": "package",
-      "path": "bcrypt.net-core/1.0.0",
+      "path": "bcrypt.net-next/4.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "bcrypt.net-core.1.0.0.nupkg.sha512",
-        "bcrypt.net-core.nuspec",
-        "lib/dotnet5.4/BCrypt.Net-Core.dll",
-        "lib/net451/BCrypt.Net-Core.dll"
+        "bcrypt.net-next.4.0.3.nupkg.sha512",
+        "bcrypt.net-next.nuspec",
+        "ico.png",
+        "lib/net20/BCrypt.Net-Next.dll",
+        "lib/net20/BCrypt.Net-Next.xml",
+        "lib/net35/BCrypt.Net-Next.dll",
+        "lib/net35/BCrypt.Net-Next.xml",
+        "lib/net462/BCrypt.Net-Next.dll",
+        "lib/net462/BCrypt.Net-Next.xml",
+        "lib/net472/BCrypt.Net-Next.dll",
+        "lib/net472/BCrypt.Net-Next.xml",
+        "lib/net48/BCrypt.Net-Next.dll",
+        "lib/net48/BCrypt.Net-Next.xml",
+        "lib/net5.0/BCrypt.Net-Next.dll",
+        "lib/net5.0/BCrypt.Net-Next.xml",
+        "lib/net6.0/BCrypt.Net-Next.dll",
+        "lib/net6.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.0/BCrypt.Net-Next.dll",
+        "lib/netstandard2.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.1/BCrypt.Net-Next.dll",
+        "lib/netstandard2.1/BCrypt.Net-Next.xml",
+        "readme.md"
       ]
     },
     "ClosedXML/0.105.0": {
@@ -1454,35 +1476,43 @@
     ]
   },
   "packageFolders": {
-    "/tmp/.nuget/packages/": {}
+    "C:\\Users\\kaio.souza\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
       "projectName": "CasamentoAnaKaio.Infrastructure",
-      "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/CasamentoAnaKaio.Infrastructure.csproj",
-      "packagesPath": "/tmp/.nuget/packages/",
-      "outputPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Infrastructure/obj/",
+      "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\kaio.souza\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/tmp/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\kaio.souza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj": {
-              "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Application/CasamentoAnaKaio.Application.csproj"
+            "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj": {
+              "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj"
             },
-            "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj": {
-              "projectPath": "/workspaces/CasamentoBack/src/CasamentoAnaKaio.Domain/CasamentoAnaKaio.Domain.csproj"
+            "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj": {
+              "projectPath": "C:\\Users\\kaio.souza\\Desktop\\Clone Casamento\\src\\CasamentoAnaKaio.Domain\\CasamentoAnaKaio.Domain.csproj"
             }
           }
         }
@@ -1497,10 +1527,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
@@ -1536,7 +1567,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1813,17 +1844,5 @@
         }
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'BCrypt.Net-Core 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net10.0'. This package may not be fully compatible with your project.",
-      "libraryId": "BCrypt.Net-Core",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  }
 }

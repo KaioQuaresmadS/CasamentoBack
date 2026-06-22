@@ -166,21 +166,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 38,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "IMPLEMENTACAO_BACKEND_COMPLETA.txt",
-              "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\IMPLEMENTACAO_BACKEND_COMPLETA.txt",
-              "RelativeDocumentMoniker": "IMPLEMENTACAO_BACKEND_COMPLETA.txt",
-              "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\IMPLEMENTACAO_BACKEND_COMPLETA.txt",
-              "RelativeToolTip": "IMPLEMENTACAO_BACKEND_COMPLETA.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-05-19T14:18:23.924Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 37,
@@ -191,8 +178,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Security\\JwtTokenGenerator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:11:40.866Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:11:40.866Z"
             },
             {
               "$type": "Document",
@@ -204,8 +190,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Services\\AuthenticationService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:11:20.99Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:11:20.99Z"
             },
             {
               "$type": "Document",
@@ -217,8 +202,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Security\\PasswordHasher.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:10:57.143Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:10:57.143Z"
             },
             {
               "$type": "Document",
@@ -230,8 +214,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-19T14:08:11.578Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:08:11.578Z"
             },
             {
               "$type": "Document",
@@ -243,8 +226,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\appsettings.Production.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-19T14:06:22.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:06:22.539Z"
             },
             {
               "$type": "Document",
@@ -256,8 +238,32 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\appsettings.json",
               "ViewState": "AgIAABwAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-19T14:06:14.38Z",
+              "WhenOpened": "2026-05-19T14:06:14.38Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Api\\Program.cs",
+              "RelativeDocumentMoniker": "src\\CasamentoAnaKaio.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Api\\Program.cs",
+              "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T15:04:07.245Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "IMPLEMENTACAO_BACKEND_COMPLETA.txt",
+              "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\IMPLEMENTACAO_BACKEND_COMPLETA.txt",
+              "RelativeDocumentMoniker": "IMPLEMENTACAO_BACKEND_COMPLETA.txt",
+              "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\IMPLEMENTACAO_BACKEND_COMPLETA.txt",
+              "RelativeToolTip": "IMPLEMENTACAO_BACKEND_COMPLETA.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-19T14:18:23.924Z"
             },
             {
               "$type": "Document",
@@ -269,8 +275,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\DependencyInjection.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:55.251Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:55.251Z"
             },
             {
               "$type": "Document",
@@ -282,8 +287,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Payments\\PaymentWebhookValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:47.624Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:47.624Z"
             },
             {
               "$type": "Document",
@@ -295,8 +299,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Payments\\MercadoPagoPixPaymentService.cs",
               "ViewState": "AgIAADQAAAAAAAAAAIBJwEAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:39.876Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:39.876Z"
             },
             {
               "$type": "Document",
@@ -308,8 +311,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\Controllers\\WebhooksController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:30.75Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:30.75Z"
             },
             {
               "$type": "Document",
@@ -321,8 +323,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Services\\PaymentWebhookService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:24.405Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:24.405Z"
             },
             {
               "$type": "Document",
@@ -334,8 +335,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\Controllers\\AuthenticationController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:19.912Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:19.912Z"
             },
             {
               "$type": "Document",
@@ -347,8 +347,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\Middleware\\LoggingMiddleware.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwCoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:10.597Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:10.597Z"
             },
             {
               "$type": "Document",
@@ -360,8 +359,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\Middleware\\ErrorHandlingMiddleware.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAIBJwEMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:05:04.956Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:05:04.956Z"
             },
             {
               "$type": "Document",
@@ -373,8 +371,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Validators\\CreateGuestConfirmationRequestValidator.cs",
               "ViewState": "AgIAABUAAAAAAAAAAABBwBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:04:40.523Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:04:40.523Z"
             },
             {
               "$type": "Document",
@@ -386,8 +383,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Validators\\CreateGiftContributionRequestValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:04:35.853Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:04:35.853Z"
             },
             {
               "$type": "Document",
@@ -399,8 +395,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Validators\\LoginRequestValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:04:29.349Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:04:29.349Z"
             },
             {
               "$type": "Document",
@@ -412,8 +407,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Repositories\\RoleRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:04:16.817Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:04:16.817Z"
             },
             {
               "$type": "Document",
@@ -425,8 +419,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Repositories\\UserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:04:10.615Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:04:10.615Z"
             },
             {
               "$type": "Document",
@@ -438,8 +431,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Options\\MercadoPagoOptions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:49.002Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:49.002Z"
             },
             {
               "$type": "Document",
@@ -451,8 +443,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Options\\JwtOptions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:44.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:44.755Z"
             },
             {
               "$type": "Document",
@@ -464,8 +455,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Contracts\\Authentication\\AuthenticationContracts.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:41.369Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:41.369Z"
             },
             {
               "$type": "Document",
@@ -477,8 +467,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Abstractions\\IPaymentWebhookService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:37.384Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:37.384Z"
             },
             {
               "$type": "Document",
@@ -490,8 +479,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Abstractions\\ITokenService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:32.779Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:32.779Z"
             },
             {
               "$type": "Document",
@@ -503,8 +491,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Abstractions\\IRoleRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:28.643Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:28.643Z"
             },
             {
               "$type": "Document",
@@ -516,8 +503,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Abstractions\\IUserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:22.871Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:22.871Z"
             },
             {
               "$type": "Document",
@@ -529,8 +515,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\Abstractions\\IAuthenticationService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:15.535Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:15.535Z"
             },
             {
               "$type": "Document",
@@ -542,8 +527,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Domain\\Entities\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:09.349Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:09.349Z"
             },
             {
               "$type": "Document",
@@ -555,8 +539,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Domain\\Entities\\Role.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:03:03.151Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:03:03.151Z"
             },
             {
               "$type": "Document",
@@ -568,47 +551,43 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Domain\\Enums\\RoleType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T14:02:51.77Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:02:51.77Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "CasamentoAnaKaio.Infrastructure",
+              "Title": "CasamentoAnaKaio.Infrastructure.csproj",
               "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
               "RelativeDocumentMoniker": "src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
               "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\CasamentoAnaKaio.Infrastructure.csproj",
               "ViewState": "AgIAAAkAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-19T14:02:46.552Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:02:46.552Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "CasamentoAnaKaio.Application",
+              "Title": "CasamentoAnaKaio.Application.csproj",
               "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
               "RelativeDocumentMoniker": "src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
               "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
               "RelativeToolTip": "src\\CasamentoAnaKaio.Application\\CasamentoAnaKaio.Application.csproj",
               "ViewState": "AgIAAAQAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-19T14:02:41.224Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:02:41.224Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "CasamentoAnaKaio.Api",
+              "Title": "CasamentoAnaKaio.Api.csproj",
               "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
               "RelativeDocumentMoniker": "src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
               "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
               "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\CasamentoAnaKaio.Api.csproj",
               "ViewState": "AgIAABEAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-19T14:02:35.138Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T14:02:35.138Z"
             },
             {
               "$type": "Document",
@@ -620,8 +599,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Payments\\MercadoPagoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T13:52:06.733Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T13:52:06.733Z"
             },
             {
               "$type": "Document",
@@ -657,21 +635,7 @@
               "RelativeToolTip": "src\\CasamentoAnaKaio.Infrastructure\\Persistence\\AppDbContext.cs",
               "ViewState": "AgIAAFQAAAAAAAAAAAAtwBEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T15:04:41.314Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Api\\Program.cs",
-              "RelativeDocumentMoniker": "src\\CasamentoAnaKaio.Api\\Program.cs",
-              "ToolTip": "C:\\Users\\kaio.souza\\Desktop\\C\u00F3digos\\Template\\template-backend\\src\\CasamentoAnaKaio.Api\\Program.cs",
-              "RelativeToolTip": "src\\CasamentoAnaKaio.Api\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T15:04:07.245Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-18T15:04:41.314Z"
             }
           ]
         }

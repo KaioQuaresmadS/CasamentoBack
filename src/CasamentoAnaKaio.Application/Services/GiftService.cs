@@ -88,7 +88,7 @@ public sealed class GiftService(
             .Sum(x => x.Amount);
         var paidReservedPercent = CalculateReservedPercent(gift.Price, paidAmount);
         var reservedPercent = Math.Max(gift.ReservedPercent, paidReservedPercent);
-        var isPurchased = paidReservedPercent >= 100;
+        var isPurchased = gift.IsPurchased || paidReservedPercent >= 100;
 
         return new GiftResponse(
             gift.Id,

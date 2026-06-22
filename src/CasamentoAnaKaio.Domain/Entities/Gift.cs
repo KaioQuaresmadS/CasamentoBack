@@ -39,6 +39,7 @@ public class Gift
     public decimal Price { get; private set; }
     public int ReservedPercent { get; private set; }
     public bool IsActive { get; private set; }
+    public bool IsPurchased { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public ICollection<GiftContribution> Contributions { get; private set; } = new List<GiftContribution>();
 
@@ -69,5 +70,10 @@ public class Gift
     public void Deactivate()
     {
         IsActive = false;
+    }
+
+    public void MarkAsPurchased()
+    {
+        IsPurchased = true;
     }
 }

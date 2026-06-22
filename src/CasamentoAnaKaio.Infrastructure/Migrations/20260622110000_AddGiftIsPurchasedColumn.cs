@@ -10,12 +10,11 @@ namespace CasamentoAnaKaio.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsPurchased",
-                table: "Gifts",
-                type: "boolean",
-                nullable: false,
-                defaultValue: false);
+            migrationBuilder.Sql(
+                """
+                ALTER TABLE "Gifts"
+                ADD COLUMN IF NOT EXISTS "IsPurchased" boolean NOT NULL DEFAULT false;
+                """);
         }
 
         /// <inheritdoc />

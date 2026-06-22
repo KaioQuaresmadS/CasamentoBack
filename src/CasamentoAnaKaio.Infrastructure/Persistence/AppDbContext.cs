@@ -40,6 +40,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
                     ImageUrl = "https://images.unsplash.com/photo-1584990347449-ae6e1f0da4a9?auto=format&fit=crop&w=900&q=80",
                     Price = 420m,
                     ReservedPercent = 35,
+                    IsPurchased = false,
                     IsActive = true,
                     CreatedAt = new DateTimeOffset(2026, 5, 18, 0, 0, 0, TimeSpan.Zero)
                 },
@@ -51,6 +52,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
                     ImageUrl = "https://images.unsplash.com/photo-1543353071-10c8ba85a904?auto=format&fit=crop&w=900&q=80",
                     Price = 280m,
                     ReservedPercent = 60,
+                    IsPurchased = false,
                     IsActive = true,
                     CreatedAt = new DateTimeOffset(2026, 5, 18, 0, 0, 0, TimeSpan.Zero)
                 },
@@ -62,6 +64,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
                     ImageUrl = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
                     Price = 900m,
                     ReservedPercent = 20,
+                    IsPurchased = false,
                     IsActive = true,
                     CreatedAt = new DateTimeOffset(2026, 5, 18, 0, 0, 0, TimeSpan.Zero)
                 },
@@ -73,6 +76,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
                     ImageUrl = "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=900&q=80",
                     Price = 360m,
                     ReservedPercent = 45,
+                    IsPurchased = false,
                     IsActive = true,
                     CreatedAt = new DateTimeOffset(2026, 5, 18, 0, 0, 0, TimeSpan.Zero)
                 });

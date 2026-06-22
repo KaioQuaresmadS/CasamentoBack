@@ -5,7 +5,7 @@ namespace CasamentoAnaKaio.Contracts.Payments;
 public sealed record CreatePixPaymentRequest(
     Guid GiftId,
     string PayerName,
-    string PayerEmail,
+    string? PayerEmail,
     decimal Amount);
 
 public sealed record CreatePixPaymentResponse(

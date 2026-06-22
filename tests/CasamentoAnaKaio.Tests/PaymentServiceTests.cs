@@ -1,5 +1,4 @@
 using CasamentoAnaKaio.Application.Abstractions;
-using CasamentoAnaKaio.Application.Exceptions;
 using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
@@ -116,6 +115,26 @@ public sealed class PaymentServiceTests
     }
 
     [Fact]
+    public async Task CreatePixAsync_UsesFallbackEmailWhenPayerEmailIsMissing()
+    {
+        var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
+        var client = new FakeMercadoPagoPaymentClient();
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            new FakeGiftContributionRepository(),
+            new FakePaymentRepository(),
+            client,
+            new FakeUnitOfWork());
+
+        await service.CreatePixAsync(
+            new CreatePixPaymentRequest(gift.Id, "Maria Silva", null, 61m),
+            CancellationToken.None);
+
+        Assert.Equal("convidado@casamentoanakaio.com.br", client.LastPixRequest?.PayerEmail);
+    }
+
+
+    [Fact]
     public async Task CreateBoletoAsync_CreatesDirectBoletoPayment()
     {
         var gift = new Gift("Faqueiro Tramontina", "Faqueiro", "https://example.com/faqueiro.jpg", 78.75m);
@@ -192,29 +211,36 @@ public sealed class PaymentServiceTests
         Assert.Equal("boleto", response.PaymentMethod);
         Assert.Equal("pref-123", response.PreferenceId);
         Assert.Equal("https://mp.example/sandbox", response.CheckoutUrl);
+        Assert.Equal("https://mp.example/sandbox", response.PaymentUrl);
+        Assert.Equal("https://mp.example/sandbox", response.TicketUrl);
+        Assert.Equal("https://mp.example/sandbox", response.BoletoUrl);
         Assert.Null(response.MercadoPagoPaymentId);
         Assert.Equal("boleto", client.LastRequest?.PaymentMethod);
         Assert.Equal("boleto", paymentRepository.Payments[0].PaymentMethod);
     }
 
     [Fact]
-    public async Task CreateAsync_WithCreditCardMethod_DoesNotRedirectToMercadoPagoCheckout()
+    public async Task CreateAsync_WithCreditCardMethod_CreatesRestrictedCheckoutPreference()
     {
         var gift = new Gift("Faqueiro Tramontina", "Faqueiro", "https://example.com/faqueiro.jpg", 78.75m);
         var client = new FakeMercadoPagoPaymentClient();
+        var paymentRepository = new FakePaymentRepository();
         var service = new PaymentService(
             new FakeGiftRepository(gift),
             new FakeGiftContributionRepository(),
-            new FakePaymentRepository(),
+            paymentRepository,
             client,
             new FakeUnitOfWork());
 
-        var exception = await Assert.ThrowsAsync<PaymentMethodUnavailableException>(() => service.CreateAsync(
+        var response = await service.CreateAsync(
             new CreatePaymentRequest(gift.Id, "Ruan", "ruan@gmail.com", "11999999999", "FullGift", 0, "credit_card"),
-            CancellationToken.None));
+            CancellationToken.None);
 
-        Assert.Contains("temporariamente desativado", exception.Message);
-        Assert.Null(client.LastRequest);
+        Assert.Equal("credit_card", response.PaymentMethod);
+        Assert.Equal("pref-123", response.PreferenceId);
+        Assert.Equal("https://mp.example/sandbox", response.CheckoutUrl);
+        Assert.Equal("credit_card", client.LastRequest?.PaymentMethod);
+        Assert.Equal("credit_card", paymentRepository.Payments[0].PaymentMethod);
     }
 
     [Fact]
@@ -302,6 +328,7 @@ public sealed class PaymentServiceTests
     private sealed class FakeMercadoPagoPaymentClient : IMercadoPagoPaymentClient
     {
         public MercadoPagoPreferenceRequest? LastRequest { get; private set; }
+        public MercadoPagoPixPaymentRequest? LastPixRequest { get; private set; }
         public MercadoPagoPreferenceResult PreferenceResult { get; init; } =
             new("pref-123", "https://mp.example/init", "https://mp.example/sandbox");
         public MercadoPagoPaymentDetails? StatusPaymentDetails { get; init; }
@@ -321,6 +348,7 @@ public sealed class PaymentServiceTests
             string idempotencyKey,
             CancellationToken cancellationToken)
         {
+            LastPixRequest = request;
             return Task.FromResult(new MercadoPagoPaymentDetails(
                 "mp-pix-123",
                 "pending",

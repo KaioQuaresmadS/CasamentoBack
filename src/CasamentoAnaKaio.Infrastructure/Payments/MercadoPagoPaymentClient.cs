@@ -197,6 +197,14 @@ public sealed class MercadoPagoPaymentClient(
                 new { id = "prepaid_card" },
                 new { id = "atm" }
             },
+            "credit_card" => new object[]
+            {
+                new { id = "debit_card" },
+                new { id = "ticket" },
+                new { id = "bank_transfer" },
+                new { id = "prepaid_card" },
+                new { id = "atm" }
+            },
             _ => Array.Empty<object>()
         };
     }

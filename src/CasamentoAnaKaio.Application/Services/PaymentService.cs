@@ -1,6 +1,5 @@
 using System.Net.Mail;
 using CasamentoAnaKaio.Application.Abstractions;
-using CasamentoAnaKaio.Application.Exceptions;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
 using CasamentoAnaKaio.Domain.Enums;
@@ -28,11 +27,6 @@ public sealed class PaymentService(
         }
 
         var paymentMethod = NormalizePaymentMethod(request.PaymentMethod);
-        if (paymentMethod == "credit_card")
-        {
-            throw new PaymentMethodUnavailableException("Pagamento por cartao esta temporariamente desativado para evitar abrir o aplicativo do Mercado Pago. Use Pix ou boleto para concluir o presente.");
-        }
-
         if (paymentMethod == "boleto")
         {
             var boleto = await CreateBoletoCoreAsync(gift, request, mode, cancellationToken);
@@ -101,8 +95,8 @@ public sealed class PaymentService(
             boleto.Contribution.Id,
             boleto.MercadoPagoPayment?.Id ?? string.Empty,
             NormalizeMercadoPagoStatusForResponse(boleto.MercadoPagoPayment?.Status ?? boleto.Payment.Status),
-            EmptyToNull(boleto.Payment.TicketUrl),
-            EmptyToNull(boleto.Payment.TicketUrl),
+            BuildBoletoUrl(boleto.Payment),
+            BuildBoletoUrl(boleto.Payment),
             EmptyToNull(boleto.Payment.Barcode),
             EmptyToNull(boleto.Payment.LinhaDigitavel),
             boleto.Payment.ExternalReference,
@@ -120,7 +114,7 @@ public sealed class PaymentService(
             ?? throw new ArgumentException("Presente nao encontrado.", nameof(request.GiftId));
 
         var payerName = request.PayerName.Trim();
-        var payerEmail = request.PayerEmail.Trim();
+        var payerEmail = BuildPayerEmail(request.PayerEmail);
         var externalReference = $"pix-{Guid.NewGuid():N}";
         var description = $"Presente Ana e Kaio - {gift.Name}";
 
@@ -298,6 +292,9 @@ public sealed class PaymentService(
     private static CreatePaymentResponse MapCreated(Payment payment, GiftContribution contribution)
     {
         var checkoutUrl = BuildCheckoutUrl(payment);
+        var boletoUrl = payment.PaymentMethod.Equals("boleto", StringComparison.OrdinalIgnoreCase)
+            ? BuildBoletoUrl(payment)
+            : EmptyToNull(payment.TicketUrl);
 
         return new CreatePaymentResponse(
             payment.Id,
@@ -309,8 +306,8 @@ public sealed class PaymentService(
             payment.InitPoint,
             payment.SandboxInitPoint,
             BuildPaymentUrl(payment),
-            EmptyToNull(payment.TicketUrl),
-            EmptyToNull(payment.TicketUrl),
+            boletoUrl,
+            boletoUrl,
             EmptyToNull(payment.Barcode),
             EmptyToNull(payment.LinhaDigitavel),
             string.IsNullOrWhiteSpace(payment.PixCopyPaste) ? null : payment.PixCopyPaste,
@@ -343,6 +340,21 @@ public sealed class PaymentService(
         return string.IsNullOrWhiteSpace(checkoutUrl) ? null : checkoutUrl;
     }
 
+    private static string? BuildBoletoUrl(Payment payment)
+    {
+        if (!string.IsNullOrWhiteSpace(payment.TicketUrl))
+        {
+            return payment.TicketUrl;
+        }
+
+        if (payment.PaymentMethod.Equals("boleto", StringComparison.OrdinalIgnoreCase))
+        {
+            return BuildPaymentUrl(payment);
+        }
+
+        return null;
+    }
+
     private static void ValidatePixRequest(CreatePixPaymentRequest request)
     {
         if (request.GiftId == Guid.Empty)
@@ -355,18 +367,16 @@ public sealed class PaymentService(
             throw new ArgumentOutOfRangeException(nameof(request.Amount), "amount deve ser maior que zero.");
         }
 
-        if (string.IsNullOrWhiteSpace(request.PayerEmail))
+        if (!string.IsNullOrWhiteSpace(request.PayerEmail))
         {
-            throw new ArgumentException("payerEmail e obrigatorio.", nameof(request.PayerEmail));
-        }
-
-        try
-        {
-            _ = new MailAddress(request.PayerEmail.Trim());
-        }
-        catch (FormatException exception)
-        {
-            throw new ArgumentException("payerEmail invalido.", nameof(request.PayerEmail), exception);
+            try
+            {
+                _ = new MailAddress(request.PayerEmail.Trim());
+            }
+            catch (FormatException exception)
+            {
+                throw new ArgumentException("payerEmail invalido.", nameof(request.PayerEmail), exception);
+            }
         }
     }
 

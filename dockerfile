@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 COPY . .
-RUN dotnet restore CasamentoAnaKaio.Backend.slnx
-RUN dotnet publish CasamentoAnaKaio.Backend.slnx -c Release -o /app/publish
+RUN dotnet restore src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj
+RUN dotnet publish src/CasamentoAnaKaio.Api/CasamentoAnaKaio.Api.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app

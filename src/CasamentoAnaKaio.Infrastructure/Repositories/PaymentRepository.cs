@@ -26,4 +26,17 @@ public sealed class PaymentRepository(AppDbContext dbContext) : IPaymentReposito
     {
         return await dbContext.Payments.FirstOrDefaultAsync(x => x.MercadoPagoPaymentId == mercadoPagoPaymentId, cancellationToken);
     }
+
+    public async Task<IReadOnlyList<string>> ListPendingMercadoPagoPaymentIdsAsync(int limit, CancellationToken cancellationToken)
+    {
+        return await dbContext.Payments
+            .AsNoTracking()
+            .Where(x =>
+                !string.IsNullOrWhiteSpace(x.MercadoPagoPaymentId) &&
+                (x.Status == "Pending" || x.Status == "Processing"))
+            .OrderBy(x => x.CreatedAt)
+            .Select(x => x.MercadoPagoPaymentId)
+            .Take(Math.Clamp(limit, 1, 100))
+            .ToListAsync(cancellationToken);
+    }
 }

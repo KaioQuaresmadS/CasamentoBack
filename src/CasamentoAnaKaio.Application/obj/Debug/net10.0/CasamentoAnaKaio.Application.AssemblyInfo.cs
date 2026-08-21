@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CasamentoAnaKaio.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21e84c0335b67544423b5876954de24e893c1c73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ee2d6ca7e12fc9e0fb052af5b9466ed1aff8799")]
 [assembly: System.Reflection.AssemblyProductAttribute("CasamentoAnaKaio.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CasamentoAnaKaio.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

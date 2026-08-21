@@ -162,6 +162,14 @@ public sealed class PaymentWebhookServiceTests
         {
             return Task.FromResult(payment?.ExternalReference == externalReference ? payment : null);
         }
+
+        public Task<IReadOnlyList<string>> ListPendingMercadoPagoPaymentIdsAsync(int limit, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<IReadOnlyList<string>>(
+                payment is not null && (payment.Status is "Pending" or "Processing") && !string.IsNullOrWhiteSpace(payment.MercadoPagoPaymentId)
+                    ? [payment.MercadoPagoPaymentId]
+                    : []);
+        }
     }
 
     private sealed class FakeMercadoPagoPaymentClient(MercadoPagoPaymentDetails paymentDetails) : IMercadoPagoPaymentClient

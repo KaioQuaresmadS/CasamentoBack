@@ -254,6 +254,35 @@ public sealed class PaymentService(
             contribution?.PaidAt);
     }
 
+    public async Task<int> ReconcilePendingMercadoPagoPaymentsAsync(
+        int limit,
+        CancellationToken cancellationToken)
+    {
+        var paymentIds = await paymentRepository.ListPendingMercadoPagoPaymentIdsAsync(limit, cancellationToken);
+        var reconciledCount = 0;
+
+        foreach (var paymentId in paymentIds)
+        {
+            try
+            {
+                var result = await GetMercadoPagoStatusAsync(paymentId, cancellationToken);
+                if (result is not null)
+                {
+                    reconciledCount++;
+                }
+            }
+            catch (Exception exception) when (!cancellationToken.IsCancellationRequested)
+            {
+                Log.Error(
+                    exception,
+                    "Falha ao reconciliar pagamento pendente do Mercado Pago. PaymentId={PaymentId}",
+                    paymentId);
+            }
+        }
+
+        return reconciledCount;
+    }
+
     public async Task<PaymentStatusResponse?> GetStatusAsync(Guid id, CancellationToken cancellationToken)
     {
         var payment = await paymentRepository.GetByIdAsync(id, cancellationToken);

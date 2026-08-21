@@ -8,4 +8,5 @@ public interface IPaymentRepository
     Task<Payment?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Payment?> GetByExternalReferenceAsync(string externalReference, CancellationToken cancellationToken);
     Task<Payment?> GetByMercadoPagoPaymentIdAsync(string mercadoPagoPaymentId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<string>> ListPendingMercadoPagoPaymentIdsAsync(int limit, CancellationToken cancellationToken);
 }

@@ -2,6 +2,7 @@ using CasamentoAnaKaio.Application.Abstractions;
 using CasamentoAnaKaio.Application.Services;
 using CasamentoAnaKaio.Contracts.Payments;
 using CasamentoAnaKaio.Domain.Entities;
+using CasamentoAnaKaio.Domain.Enums;
 
 namespace CasamentoAnaKaio.Tests;
 
@@ -281,6 +282,36 @@ public sealed class PaymentServiceTests
         Assert.Equal(2, unitOfWork.SaveChangesCount);
     }
 
+    [Fact]
+    public async Task ReconcilePendingMercadoPagoPaymentsAsync_ConfirmsApprovedPix()
+    {
+        var gift = new Gift("Jantar", "Jantar especial", "https://example.com/jantar.jpg", 280m);
+        var contributionRepository = new FakeGiftContributionRepository();
+        var paymentRepository = new FakePaymentRepository();
+        var client = new FakeMercadoPagoPaymentClient
+        {
+            StatusPaymentDetails = new MercadoPagoPaymentDetails(
+                "mp-pix-123", "approved", null, "pix", "bank_transfer", null, null, null)
+        };
+        var service = new PaymentService(
+            new FakeGiftRepository(gift),
+            contributionRepository,
+            paymentRepository,
+            client,
+            new FakeUnitOfWork());
+
+        await service.CreatePixAsync(
+            new CreatePixPaymentRequest(gift.Id, "Maria Silva", "maria@example.com", 61m),
+            CancellationToken.None);
+
+        var reconciled = await service.ReconcilePendingMercadoPagoPaymentsAsync(100, CancellationToken.None);
+
+        Assert.Equal(1, reconciled);
+        Assert.Equal("Paid", paymentRepository.Payments[0].Status);
+        Assert.Equal(PaymentStatus.Paid, contributionRepository.Contributions[0].PaymentStatus);
+        Assert.True(gift.IsPurchased);
+    }
+
     private sealed class FakeGiftRepository(Gift gift) : IGiftRepository
     {
         public Task<Gift?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult(gift.Id == id ? gift : null);
@@ -323,6 +354,13 @@ public sealed class PaymentServiceTests
         public Task<Payment?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult(Payments.FirstOrDefault(x => x.Id == id));
         public Task<Payment?> GetByMercadoPagoPaymentIdAsync(string mercadoPagoPaymentId, CancellationToken cancellationToken) => Task.FromResult(Payments.FirstOrDefault(x => x.MercadoPagoPaymentId == mercadoPagoPaymentId));
         public Task<Payment?> GetByExternalReferenceAsync(string externalReference, CancellationToken cancellationToken) => Task.FromResult(Payments.FirstOrDefault(x => x.ExternalReference == externalReference));
+        public Task<IReadOnlyList<string>> ListPendingMercadoPagoPaymentIdsAsync(int limit, CancellationToken cancellationToken) =>
+            Task.FromResult<IReadOnlyList<string>>(Payments
+                .Where(x => x.Status is "Pending" or "Processing")
+                .Select(x => x.MercadoPagoPaymentId)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Take(limit)
+                .ToArray());
     }
 
     private sealed class FakeMercadoPagoPaymentClient : IMercadoPagoPaymentClient

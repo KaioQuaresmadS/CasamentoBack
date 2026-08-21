@@ -141,7 +141,6 @@ public sealed class MercadoPagoPaymentClient(
     private object BuildPreferenceBody(MercadoPagoPreferenceRequest request)
     {
         var frontendUrl = options.FrontendUrl.TrimEnd('/');
-        var backendUrl = options.BackendUrl.TrimEnd('/');
 
         return new
         {
@@ -161,7 +160,7 @@ public sealed class MercadoPagoPaymentClient(
                 email = request.PayerEmail
             },
             external_reference = request.ExternalReference,
-            notification_url = $"{backendUrl}/api/payments/webhook/mercadopago",
+            notification_url = BuildNotificationUrl(),
             back_urls = new
             {
                 success = $"{frontendUrl}/pagamento/sucesso",
@@ -211,8 +210,6 @@ public sealed class MercadoPagoPaymentClient(
 
     private object BuildPixPaymentBody(MercadoPagoPixPaymentRequest request)
     {
-        var backendUrl = options.BackendUrl.TrimEnd('/');
-
         return new
         {
             transaction_amount = request.Amount,
@@ -224,14 +221,12 @@ public sealed class MercadoPagoPaymentClient(
                 first_name = request.PayerName
             },
             external_reference = request.ExternalReference,
-            notification_url = $"{backendUrl}/api/payments/webhook"
+            notification_url = BuildNotificationUrl()
         };
     }
 
     private object BuildBoletoPaymentBody(MercadoPagoBoletoPaymentRequest request)
     {
-        var backendUrl = options.BackendUrl.TrimEnd('/');
-
         return new
         {
             transaction_amount = request.Amount,
@@ -243,8 +238,21 @@ public sealed class MercadoPagoPaymentClient(
                 first_name = request.PayerName
             },
             external_reference = request.ExternalReference,
-            notification_url = $"{backendUrl}/api/payments/webhook"
+            notification_url = BuildNotificationUrl()
         };
+    }
+
+    private string BuildNotificationUrl()
+    {
+        if (!Uri.TryCreate(options.BackendUrl, UriKind.Absolute, out var backendUri) ||
+            (backendUri.Scheme != Uri.UriSchemeHttps &&
+             !(options.IsSandbox && backendUri.Scheme == Uri.UriSchemeHttp)))
+        {
+            throw new InvalidOperationException(
+                "Configure BACKEND_URL com a URL publica HTTPS da API antes de criar pagamentos Mercado Pago.");
+        }
+
+        return $"{backendUri.AbsoluteUri.TrimEnd('/')}/api/payments/webhook/mercadopago?source_news=webhooks";
     }
 
     private static MercadoPagoPaymentDetails ParsePaymentDetails(string payload)
